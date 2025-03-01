@@ -27,17 +27,13 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/scss/bootstrap.scss",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-                "src/styles.css"
-              ],
-              "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-              ],
+              "src/styles.css"
+            ],
+            "scripts": [],
             "server": "src/main.server.ts",
-            "outputMode": "server",
+            "prerender": true,
             "ssr": {
-              "entry": "src/server.ts"
+              "entry": "server.ts"
             }
           },
           "configurations": {
@@ -50,8 +46,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -103,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "712415fe-6f94-4cb9-9f43-efb793a54028"
+    "analytics": false
   }
 }
