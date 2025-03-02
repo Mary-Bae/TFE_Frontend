@@ -10,10 +10,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAuth0({
       domain : 'dev-r0omvlrob02srgfr.us.auth0.com',
-      clientId : 'zIqyNEtaFJ6fhHnvZvrebbOLZxvMpg0y',
+      clientId : 'quhdnv5lsdrgukBLszB9tMzKU7hymnVG',
       authorizationParams : {
         redirect_uri : window.location.origin,
-        audience : 'https://WebApiForAngular-26-11-2024'
+       
       },
       httpInterceptor : {
         allowedList : [

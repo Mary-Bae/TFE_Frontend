@@ -4,6 +4,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { NavbarComponent } from "./navbar/navbar.component";
+
 @Component({
   selector: 'app-root',
   standalone: true,
