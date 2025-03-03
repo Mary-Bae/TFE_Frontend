@@ -15,17 +15,10 @@ constructor(private http : HttpClient, private auth:AuthService){}
 
 callWebApi() {
   this.response = 'wait for api ...'
-  this.auth.getAccessTokenSilently()
+  this.http.get<string>('https://localhost:7290/api/test/GetPrivate')
+
   .subscribe({
-    next:(token) =>{
-      this.http.get<string>('https://localhost:7290/api/test/GetPrivate',
-        {headers : {Authorization : 'Bearer ' + token}}
-      )
-      .subscribe({
-        next : (v) => this.response = JSON.stringify(v),
-        error : (err) => this.response = 'Error : ' + JSON.stringify(err)
-      });
-    }
-  })
+    next : (v) => this.response = JSON.stringify(v)
+  });
 }
 }
