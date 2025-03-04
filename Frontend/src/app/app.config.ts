@@ -13,25 +13,23 @@ export const appConfig: ApplicationConfig = {
       clientId : 'quhdnv5lsdrgukBLszB9tMzKU7hymnVG',
       authorizationParams : {
         redirect_uri : window.location.origin,
-       
+        audience: 'https://FlexiTimeAPI'
       },
-      httpInterceptor : {
-        allowedList : [
+      httpInterceptor:{
+        allowedList:[
           {
-            uri: 'http://localhost:5000/api/*',             
-            uriMatcher : (uri) => { 
-              // un exemple d'url qui ne demande pas un access token 
-              return uri != 'http://localhost:5000/api/Values/getall' 
-            }, 
-            tokenOptions: { 
-              authorizationParams: { 
-                audience: 'https://WebApiForAngular-26-11-2024',     
-              } 
+            uri: 'https://localhost:7290/api/*',
+            uriMatcher:(uri)=>{
+              return uri != 'https://localhost:7290/api/test/GetPublic'
+            },
+            tokenOptions:{
+              authorizationParams:{
+                audience: 'https://FlexiTimeAPI'
+              }
             }
           }
         ]
       }
-      
     }),
     provideHttpClient(withInterceptors([authHttpInterceptorFn]))
   ]

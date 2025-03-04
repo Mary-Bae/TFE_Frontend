@@ -23,7 +23,8 @@ logout(){
 
 callWebApi() {
   this.response = 'wait for api ...'
-  this.http.get<string>('http://localhost:5000/api/values/getall')
+this.http.get<string>('https://localhost:7290/api/test/GetPublic')
+
   .subscribe({
     next : (v) => this.response = JSON.stringify(v)
   });
