@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
           {
             uri: 'https://localhost:7290/api/*',
             uriMatcher:(uri)=>{
-              return uri != 'https://localhost:7290/api/test/GetPublic'
+              return uri != 'https://localhost:7290/api/Demandes/GetPublic'
             },
             tokenOptions:{
               authorizationParams:{
