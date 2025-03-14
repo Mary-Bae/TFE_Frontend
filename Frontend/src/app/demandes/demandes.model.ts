@@ -1,6 +1,6 @@
-export class Demandes{
+export class DemandesModel{
     type: string;
-    dateBegin: Date;
-    dateEnd: Date;
+    dateBegin: String;    
+    dateEnd: String;
     comment: String;
 }

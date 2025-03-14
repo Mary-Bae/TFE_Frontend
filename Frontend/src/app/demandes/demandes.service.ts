@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Demandes } from './demandes.model';
+import { DemandesModel } from './demandes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,11 @@ import { Demandes } from './demandes.model';
 export class DemandesService {
 
   constructor(private http: HttpClient) { }
-  Post(demande: Demandes){
-    return this.http.post("https://localhost:7290/api/Demandes", demande).subscribe();
+  Post(demande: DemandesModel){
+return this.http.post("https://localhost:7290/Demandes/AddDemande", demande)
+  .subscribe(
+    response => console.log(response),
+    error => console.error(error)
+  );
   }
 }
