@@ -4,6 +4,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Demandes } from '../shared/demandes.model';
 import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-demandes',
@@ -16,15 +17,28 @@ export class DemandesComponent {
   model:  NgbDateStruct | null = null;
   formConge: FormGroup;
   demande: Demandes = new Demandes();
-  
 
-  constructor(private demandesService: DemandesService){
+  constructor(private demandesService: DemandesService, private router: ActivatedRoute ){
     this.formConge= new FormGroup({
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
       dateEnd: new FormControl('', Validators.required),
       comment: new FormControl('')
+    });
 
+    this.router.params.subscribe(params=>{
+      let id= params['id']
+      if(id){
+        this.demandesService.GetById(id).subscribe(demande=>{
+          if(demande){
+            this.formConge.controls['type'].setValue(demande.type);
+            this.formConge.controls['dateBegin'].setValue(demande.dateBegin);
+            this.formConge.controls['dateEnd'].setValue(demande.dateEnd);
+            this.formConge.controls['comment'].setValue(demande.comment);
+
+          }
+        })
+      }
     })
   }
   Save(form: FormGroup){
