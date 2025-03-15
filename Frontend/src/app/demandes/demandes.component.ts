@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { DemandesModel } from './demandes.model';
-import { DemandesService } from './demandes.service';
+import { Demandes } from '../shared/demandes.model';
+import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 export class DemandesComponent {
   model:  NgbDateStruct | null = null;
   formConge: FormGroup;
-  demande: DemandesModel = new DemandesModel();
+  demande: Demandes = new Demandes();
   
 
   constructor(private demandesService: DemandesService){

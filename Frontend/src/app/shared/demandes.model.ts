@@ -1,4 +1,4 @@
-export class DemandesModel{
+export class Demandes{
     type: string;
     dateBegin: String;    
     dateEnd: String;

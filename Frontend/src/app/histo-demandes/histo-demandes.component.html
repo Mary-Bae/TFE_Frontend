@@ -1,1 +1,21 @@
-<p>histo-demandes works!</p>
+<p>Table is just a mapping of objects to table rows with <code>&#64;for</code></p>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">Type</th>
+			<th scope="col">Du</th>
+			<th scope="col">Au</th>
+            <th scope="col">Commentaire</th>
+		</tr>
+	</thead>
+	<tbody>
+		 @for (demande of demandes; track demande.name; let i = $index) {
+			<tr>
+				<td>{{ demande.type }}</td>
+				<td>{{ demande.dateBegin}}</td>
+				<td>{{ demande.dateEnd }}</td>
+                <td>{{ demande.comment }}</td>
+            </tr>
+        }
+	</tbody>
+</table>

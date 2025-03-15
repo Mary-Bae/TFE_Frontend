@@ -3,10 +3,12 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { DemandesComponent } from './demandes/demandes.component';
+import { HistoDemandesComponent } from './histo-demandes/histo-demandes.component';
 
 export const routes: Routes = [
     { path: '', component:HomeComponent },
     {path : 'home', component : HomeComponent},
     {path : 'dashboard', canActivate : [AuthGuard], component : DashboardComponent},
-    {path : 'demandes', component : DemandesComponent}
+    {path : 'demandes', component : DemandesComponent},
+    {path : 'histo-demandes', component : HistoDemandesComponent}
 ];
