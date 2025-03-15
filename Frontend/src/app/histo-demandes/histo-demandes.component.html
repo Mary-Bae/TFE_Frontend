@@ -1,0 +1,35 @@
+
+
+<div class="container mt-4">
+    <h3>Historique de toutes vos demandes</h3>
+    <br><br>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Du</th>
+                    <th scope="col">Au</th>
+                    <th scope="col">Commentaire</th>
+                    <th scope="col">Modifier</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (demande of demandes; track demande.id; let i = $index) {
+                    <tr>
+                        <td>{{demande.id}}</td>
+                        <td>{{ demande.type }}</td>
+                        <td>{{ demande.dateBegin}}</td>
+                        <td>{{ demande.dateEnd }}</td>
+                        <td>{{ demande.comment }}</td>
+                        <td><button class="btn btn-dark" type="button"(click)="edit(demande.id)">Edit</button>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+
+	
+	
+
+
