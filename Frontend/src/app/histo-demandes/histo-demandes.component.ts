@@ -3,11 +3,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Demandes } from '../shared/demandes.model';
 import { DemandesService } from '../shared/demandes.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-histo-demandes',
   standalone: true,
-  imports: [NgbModule],
+  imports: [NgbModule, CommonModule],
   templateUrl: './histo-demandes.component.html',
   styleUrl: './histo-demandes.component.css'
 })
@@ -16,7 +17,7 @@ export class HistoDemandesComponent {
   demandes: any;
 
   constructor(private demandesService: DemandesService, private router:Router){
-    demandesService.Get().subscribe(x=>{
+    demandesService.GetDemandesByUser().subscribe(x=>{
       this.demandes=x
     })
     

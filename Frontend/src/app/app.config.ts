@@ -18,15 +18,16 @@ export const appConfig: ApplicationConfig = {
       httpInterceptor:{
         allowedList:[
           {
-            uri: 'https://localhost:7290/api/*',
-            uriMatcher:(uri)=>{
-              return uri != 'https://localhost:7290/api/Demandes/GetPublic'
-            },
+            uri: 'https://localhost:7290/*',
             tokenOptions:{
               authorizationParams:{
                 audience: 'https://FlexiTimeAPI'
               }
             }
+          },
+          {
+            uri: 'https://localhost:7290/Demandes/GetPublic',
+            allowAnonymous: true
           }
         ]
       }

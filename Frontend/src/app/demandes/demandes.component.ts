@@ -31,10 +31,10 @@ export class DemandesComponent {
       if(id){
         this.demandesService.GetById(id).subscribe(demande=>{
           if(demande){
-            this.formConge.controls['type'].setValue(demande.type);
-            this.formConge.controls['dateBegin'].setValue(demande.dateBegin);
-            this.formConge.controls['dateEnd'].setValue(demande.dateEnd);
-            this.formConge.controls['comment'].setValue(demande.comment);
+            //this.formConge.controls['type'].setValue(demande.type);
+            //this.formConge.controls['dateBegin'].setValue(demande.dateBegin);
+            //this.formConge.controls['dateEnd'].setValue(demande.dateEnd);
+            //this.formConge.controls['comment'].setValue(demande.comment);
 
           }
         })
@@ -64,10 +64,10 @@ export class DemandesComponent {
       return;
       }
 
-    this.demande.type= form.value.type;
-    this.demande.dateBegin= formatDate(form.value.dateBegin);
-    this.demande.dateEnd= formatDate(form.value.dateEnd);
-    this.demande.comment= form.value.comment;
+    //this.demande.type= form.value.type;
+    //this.demande.dateBegin= formatDate(form.value.dateBegin);
+    //this.demande.dateEnd= formatDate(form.value.dateEnd);
+    //this.demande.comment= form.value.comment;
 
     this.demandesService.Post(this.demande);
   }
