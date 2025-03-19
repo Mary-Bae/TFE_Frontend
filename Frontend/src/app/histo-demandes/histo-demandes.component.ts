@@ -17,7 +17,7 @@ export class HistoDemandesComponent {
   demandes: any;
 
   constructor(private demandesService: DemandesService, private router:Router){
-    demandesService.Get().subscribe(x=>{
+    demandesService.GetDemandesByUser().subscribe(x=>{
       this.demandes=x
     })
     

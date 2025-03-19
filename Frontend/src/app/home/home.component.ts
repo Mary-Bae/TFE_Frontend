@@ -21,12 +21,4 @@ logout(){
   this.auth.logout();
 }
 
-callWebApi() {
-  this.response = 'wait for api ...'
-this.http.get<string>('https://localhost:7290/Demandes/GetPublic')
-
-  .subscribe({
-    next : (v) => this.response = JSON.stringify(v)
-  });
-}
 }
