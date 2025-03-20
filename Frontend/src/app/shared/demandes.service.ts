@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Demandes } from '../shared/demandes.model';
+import { TypeAbsence } from '../shared/TypeAbsence.model';
 import { Observable } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
 
@@ -16,6 +17,10 @@ Get(){
 }
 GetById(id: Int32Array){
   return this.http.get<Demandes>("https://localhost:7290/Demandes/GetDemandeById?id=" + id);
+}
+GetTypeAbsByUser(): Observable<TypeAbsence[]>{
+
+  return this.http.get<Array<TypeAbsence>>("https://localhost:7290/Demandes/GetTypeAbsByUser");
 }
 GetDemandesByUser(): Observable<Demandes[]>{
 
