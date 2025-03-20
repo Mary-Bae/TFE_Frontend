@@ -5,9 +5,9 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Type de demande</label>
               <select formControlName="type" class="form-control, form-select" id="exampleFormControlSelect1">
-                <option>Congé Légal</option>
-                <option>Congé de circonstances</option>
-                <option>Congé pour raisons impérieuses</option>
+                <option *ngFor="let type of typeAbsences" [value]="type.TYPE_Libelle">
+                    {{ type.TYPE_Libelle }}
+                  </option>
               </select>
             </div>
             <div class="row">
