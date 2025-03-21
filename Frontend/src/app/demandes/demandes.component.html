@@ -5,7 +5,7 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Type de demande</label>
               <select formControlName="type" class="form-control, form-select" id="exampleFormControlSelect1">
-                <option *ngFor="let type of typeAbsences" [value]="type.TYPE_Libelle">
+                <option *ngFor="let type of typeAbsences" [value]="type.TAEM_TYPE_id">
                     {{ type.TYPE_Libelle }}
                   </option>
               </select>

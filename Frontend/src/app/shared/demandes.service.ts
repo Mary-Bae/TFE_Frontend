@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Demandes } from '../shared/demandes.model';
+import { Demandes, AddDemandes } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/TypeAbsence.model';
 import { Observable } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
@@ -26,8 +26,9 @@ GetDemandesByUser(): Observable<Demandes[]>{
 
   return this.http.get<Array<Demandes>>("https://localhost:7290/Demandes/GetDemandesByUser");
 }
-  Post(demande: Demandes){
-return this.http.post("https://localhost:7290/Demandes/AddDemande", demande)
+  Post(addDemande: AddDemandes){
+    console.log('Envoi de la requête POST au backend :', addDemande);
+return this.http.post("https://localhost:7290/Demandes/AjoutDemandeAbsence", addDemande)
   .subscribe(
     response => console.log(response),
     error => console.error(error)

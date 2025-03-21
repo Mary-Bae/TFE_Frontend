@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Demandes } from '../shared/demandes.model';
+import { AddDemandes, Demandes } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/TypeAbsence.model';
 import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
@@ -19,6 +19,7 @@ export class DemandesComponent {
   model:  NgbDateStruct | null = null;
   formConge: FormGroup;
   demande: Demandes = new Demandes();
+  addDemande: AddDemandes = new AddDemandes();
   typeAbsences: TypeAbsence[] = [];
 
   constructor(private demandesService: DemandesService, private router: ActivatedRoute ){
@@ -37,20 +38,18 @@ export class DemandesComponent {
       if(id){
         this.demandesService.GetById(id).subscribe(demande=>{
           if(demande){
-            this.formConge.controls['type'].setValue(demande.TYPE_Libelle);
+            this.formConge.controls['type'].setValue(demande.DEM_TYPE_id);
             this.formConge.controls['dateBegin'].setValue(demande.DEM_DteDebut);
             this.formConge.controls['dateEnd'].setValue(demande.DEM_DteFin);
             this.formConge.controls['comment'].setValue(demande.DEM_Comm);
-
           }
         })
       }
     })
   }
   Save(form: FormGroup){
-
-    const formatDate = (date: NgbDateStruct): string => {
-      return `${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`;
+    const formatDate = (date: NgbDateStruct): Date => {
+      return new Date(date.year, date.month - 1, date.day);
     };
 
     const dateBegin = form.value.dateBegin;
@@ -70,12 +69,14 @@ export class DemandesComponent {
       return;
       }
 
-    //this.demande.type= form.value.type;
-    //this.demande.dateBegin= formatDate(form.value.dateBegin);
-    //this.demande.dateEnd= formatDate(form.value.dateEnd);
-    //this.demande.comment= form.value.comment;
-
-    this.demandesService.Post(this.demande);
+    this.addDemande.DEM_DteDebut = formatDate(dateBegin);
+    this.addDemande.DEM_DteFin = formatDate(dateEnd);
+    this.addDemande.DEM_Comm= form.value.comment;
+    this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
+    this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
+    this.addDemande.DEM_DureeHeures = 53;
+    
+    this.demandesService.Post(this.addDemande);
   }
 
 }
