@@ -12,9 +12,6 @@ export class DemandesService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-Get(){
-  return this.http.get<Array<Demandes>>("https://localhost:7290/Demandes/GetDemandes");
-}
 GetDemandeById(id: number){
   return this.http.get<DemandeById>("https://localhost:7290/Demandes/GetDemandeById?id=" + id);
 }
@@ -26,12 +23,13 @@ GetDemandesByUser(): Observable<Demandes[]>{
 
   return this.http.get<Array<Demandes>>("https://localhost:7290/Demandes/GetDemandesByUser");
 }
-  Post(addDemande: AddDemandes){
+  PostDemande(addDemande: AddDemandes){
     console.log('Envoi de la requête POST au backend :', addDemande);
 return this.http.post("https://localhost:7290/Demandes/AjoutDemandeAbsence", addDemande)
-  .subscribe(
-    response => console.log(response),
-    error => console.error(error)
-  );
+  
+  }
+  updateDemande(id: number, demande: AddDemandes) {
+    return this.http.put("https://localhost:7290/Demandes/MajDemande?id=" +id, demande);
   }
 }
+
