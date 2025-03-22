@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AddDemandes, Demandes } from '../shared/demandes.model';
+import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/TypeAbsence.model';
 import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
@@ -20,6 +20,7 @@ export class DemandesComponent {
   formConge: FormGroup;
   demande: Demandes = new Demandes();
   addDemande: AddDemandes = new AddDemandes();
+  DemandeById: DemandeById = new DemandeById();
   typeAbsences: TypeAbsence[] = [];
 
   constructor(private demandesService: DemandesService, private router: ActivatedRoute ){
@@ -33,21 +34,28 @@ export class DemandesComponent {
       this.typeAbsences = types;
     });
 
+    //Pour convertir les dates récupérées du backend en format NgbDateStruct, format que mon Datepicker comprend
+    const formatNgbDate = (sDate: Date): NgbDateStruct => {
+      const date = new Date(sDate);
+      return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+    };
+
     this.router.params.subscribe(params=>{
       let id= params['id']
       if(id){
-        this.demandesService.GetById(id).subscribe(demande=>{
-          if(demande){
-            this.formConge.controls['type'].setValue(demande.DEM_TYPE_id);
-            this.formConge.controls['dateBegin'].setValue(demande.DEM_DteDebut);
-            this.formConge.controls['dateEnd'].setValue(demande.DEM_DteFin);
-            this.formConge.controls['comment'].setValue(demande.DEM_Comm);
+        this.demandesService.GetDemandeById(id).subscribe(DemandeById=>{
+          if(DemandeById){
+            this.formConge.controls['type'].setValue(DemandeById.DEM_TYPE_id);
+            this.formConge.controls['dateBegin'].setValue(formatNgbDate(DemandeById.DEM_DteDebut));
+            this.formConge.controls['dateEnd'].setValue(formatNgbDate(DemandeById.DEM_DteFin));
+            this.formConge.controls['comment'].setValue(DemandeById.DEM_Comm);
           }
         })
       }
     })
   }
   Save(form: FormGroup){
+    //Pour convertir les dates récupérées du NgbDateStruct en format date
     const formatDate = (date: NgbDateStruct): Date => {
       return new Date(date.year, date.month - 1, date.day);
     };

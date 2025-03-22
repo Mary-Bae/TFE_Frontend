@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Demandes } from '../shared/demandes.model';
 import { DemandesService } from '../shared/demandes.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
