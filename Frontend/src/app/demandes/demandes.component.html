@@ -1,7 +1,12 @@
+
+
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        <form [formGroup]="formConge" (ngSubmit)="Save(formConge)">
+        <div class="text-center mb-4">
+            <h3>{{ titreForme }}</h3>
+        </div>
+        <form [formGroup]="formAbs" (ngSubmit)="Save(formAbs)">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Type de demande</label>
               <select formControlName="type" class="form-control, form-select" id="exampleFormControlSelect1">
@@ -44,7 +49,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="comment"></textarea>
               </div> 
             </div>
-              <button class="btn btn-dark mt-3" type="submit" [disabled]="formConge.invalid">Envoyer</button>
+              <button class="btn btn-dark mt-3" type="submit" [disabled]="formAbs.invalid">Envoyer</button>
           </form>
       </div>
     <div class="col"></div>

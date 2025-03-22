@@ -9,7 +9,7 @@ export const routes: Routes = [
     { path: '', component:HomeComponent },
     {path : 'home', component : HomeComponent},
     {path : 'dashboard', canActivate : [AuthGuard], component : DashboardComponent},
-    {path : 'demandes', component : DemandesComponent},
-    {path : 'demandes/:id', component : DemandesComponent},
+    {path : 'demandes', canActivate : [AuthGuard], component : DemandesComponent},
+    {path : 'demandes/:id', canActivate : [AuthGuard], component : DemandesComponent},
     {path : 'histo-demandes', canActivate : [AuthGuard], component : HistoDemandesComponent}
 ];

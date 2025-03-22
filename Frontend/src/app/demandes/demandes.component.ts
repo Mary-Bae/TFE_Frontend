@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AddDemandes, Demandes } from '../shared/demandes.model';
+import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/TypeAbsence.model';
 import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
@@ -17,13 +17,15 @@ import { CommonModule } from '@angular/common';
 })
 export class DemandesComponent {
   model:  NgbDateStruct | null = null;
-  formConge: FormGroup;
+  formAbs: FormGroup;
   demande: Demandes = new Demandes();
   addDemande: AddDemandes = new AddDemandes();
+  DemandeById: DemandeById = new DemandeById();
   typeAbsences: TypeAbsence[] = [];
+  titreForme: string = "";
 
-  constructor(private demandesService: DemandesService, private router: ActivatedRoute ){
-    this.formConge= new FormGroup({
+  constructor(private demandesService: DemandesService, private router: Router, private route: ActivatedRoute ){
+    this.formAbs= new FormGroup({
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
       dateEnd: new FormControl('', Validators.required),
@@ -33,21 +35,32 @@ export class DemandesComponent {
       this.typeAbsences = types;
     });
 
-    this.router.params.subscribe(params=>{
+    //Pour convertir les dates récupérées du backend en format NgbDateStruct, format que mon Datepicker comprend
+    const formatNgbDate = (sDate: Date): NgbDateStruct => {
+      const date = new Date(sDate);
+      return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+    };
+
+    this.route.params.subscribe(params=>{
       let id= params['id']
       if(id){
-        this.demandesService.GetById(id).subscribe(demande=>{
-          if(demande){
-            this.formConge.controls['type'].setValue(demande.DEM_TYPE_id);
-            this.formConge.controls['dateBegin'].setValue(demande.DEM_DteDebut);
-            this.formConge.controls['dateEnd'].setValue(demande.DEM_DteFin);
-            this.formConge.controls['comment'].setValue(demande.DEM_Comm);
+        this.titreForme = "Vous pouvez modifier votre demande ici"
+        this.demandesService.GetDemandeById(id).subscribe(DemandeById=>{
+          if(DemandeById){
+            this.DemandeById = DemandeById; //-> Récupération de l'id de la demande pour pouvoir faire l'update ensuite
+            this.formAbs.controls['type'].setValue(DemandeById.DEM_TYPE_id);
+            this.formAbs.controls['dateBegin'].setValue(formatNgbDate(DemandeById.DEM_DteDebut));
+            this.formAbs.controls['dateEnd'].setValue(formatNgbDate(DemandeById.DEM_DteFin));
+            this.formAbs.controls['comment'].setValue(DemandeById.DEM_Comm);
           }
         })
+      } else {
+        this.titreForme = "Nouvelle Demande d'Absence"; 
       }
     })
   }
   Save(form: FormGroup){
+    //Pour convertir les dates récupérées du NgbDateStruct en format date
     const formatDate = (date: NgbDateStruct): Date => {
       return new Date(date.year, date.month - 1, date.day);
     };
@@ -56,8 +69,7 @@ export class DemandesComponent {
     const dateEnd = form.value.dateEnd;
     // Vérification des dates, une date de fin ne peut pas être inférieure à la date de début
     if (dateEnd && dateBegin && 
-      (dateEnd.year < dateBegin.year ||
-      (dateEnd.year === dateBegin.year && dateEnd.month < dateBegin.month) ||
+      (dateEnd.year < dateBegin.year || (dateEnd.year === dateBegin.year && dateEnd.month < dateBegin.month) ||
       (dateEnd.year === dateBegin.year && dateEnd.month === dateBegin.month && dateEnd.day < dateBegin.day))) {
         // installation et importation de sweetalert2 pour une alerte plus sympatique que celle de base 
         Swal.fire({
@@ -76,7 +88,35 @@ export class DemandesComponent {
     this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
     this.addDemande.DEM_DureeHeures = 53;
     
-    this.demandesService.Post(this.addDemande);
+    // Vérifier si c'est une modification ou un ajout
+    if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
+      console.log("Mise à jour de la demande :", this.DemandeById);
+      this.demandesService.updateDemande(this.DemandeById.DEM_id, this.addDemande)
+        .subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title:'Demande d\'absence mise à jour avec succès!',
+            confirmButtonText: 'OK',
+          }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je change de route
+            this.router.navigate(['/histo-demandes']);
+          });
+        }, error => {
+          console.error(error);
+        });
+  } else { // Sinon, on fait un ajout
+      console.log("Ajout d'une nouvelle demande :", this.addDemande);
+      this.demandesService.PostDemande(this.addDemande)
+      .subscribe(() => {
+        Swal.fire({
+          icon: 'success',
+          title:'Demande d\'absence rajoutée avec succès!',
+          confirmButtonText: 'OK',
+        }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je vide la form pour entrer une autre demande
+          this.formAbs.reset();
+        });
+      }, error => {
+        console.error(error);
+      });
   }
-
+  }
 }
