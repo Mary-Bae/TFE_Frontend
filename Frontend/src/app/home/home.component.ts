@@ -11,7 +11,6 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  response = '';
 constructor(public auth : AuthService, private http : HttpClient){}
 
 login(){

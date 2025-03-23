@@ -1,0 +1,26 @@
+<div class="container mt-4">
+    <h3>Vos compteurs de congés pour l'année {{annee}}</h3>
+    <br><br>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th hidden scope="col">id</th>
+                    <th scope="col">Type de congé</th>
+                    <th scope="col">Nombre de jours au total</th>
+                    <th scope="col">Heures au total</th>
+                    <th scope="col">Heures prises</th>
+                    <th scope="col">Heures Restantes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let conge of compteur; let i = index">
+                        <td hidden>{{conge.TAEM_id}}</td>
+                        <td>{{ conge.TYPE_Libelle }}</td>
+                        <td>{{ conge.TAEM_NbrJoursAn }}</td>
+                        <td>{{ conge.TAEM_Heures}}</td>
+                        <td>{{ conge.DEM_DureeHeures}}</td>
+                        <td>{{ conge.DureeRestante }}</td>
+                    </tr>  
+            </tbody>
+        </table>
+</div>
