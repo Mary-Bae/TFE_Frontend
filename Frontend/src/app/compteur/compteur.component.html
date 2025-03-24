@@ -1,5 +1,8 @@
 <div class="container mt-4">
     <h3>Vos compteurs de congés pour l'année {{annee}}</h3>
+    <p *ngIf="auth.user$ | async as user">
+        Bonjour {{user.name}}, Vous pouvez voir ici votre situation actuelle en ce {{date}}
+    </p>
     <br><br>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
@@ -23,4 +26,5 @@
                     </tr>  
             </tbody>
         </table>
+        <br><br>
 </div>

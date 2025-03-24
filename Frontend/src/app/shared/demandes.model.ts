@@ -29,4 +29,5 @@ export class AddDemandes{
     DEM_TYPE_id: number; 
     DEM_Justificatif?: String;
     DEM_DureeHeures: number;
+    TypeJournee: string;
 }

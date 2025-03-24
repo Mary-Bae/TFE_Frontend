@@ -44,13 +44,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Durée</label>
+                        <select id="typeJournee" class="form-select" aria-label="Default select example">
+                            <option value="Matin">Matin</option>
+                            <option value="Apres-midi">Après-midi</option>
+                            <option value="Journee">Jour complet</option>
+                          </select>
+                      </div>
+                </div>
+                
               <div class="form-group">
                 <label for="exampleFormControlTextarea1">Commentaire</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="comment"></textarea>
               </div> 
             </div>
+          
               <button class="btn btn-dark mt-3" type="submit" [disabled]="formAbs.invalid">Envoyer</button>
           </form>
       </div>
-    <div class="col"></div>
+    <div class="col">
+        <button class="btn btn-dark mt-3" (click)="navigateToCompteur()" type="button">Aperçu des compteurs</button>
+    </div>
 </div>
