@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Demandes, AddDemandes,DemandeById } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/TypeAbsence.model';
@@ -30,6 +30,10 @@ return this.http.post("https://localhost:7290/Demandes/AjoutDemandeAbsence", add
   }
   updateDemande(id: number, demande: AddDemandes) {
     return this.http.put("https://localhost:7290/Demandes/MajDemande?id=" +id, demande);
+  }
+  DeleteDemande(id: number)
+  { 
+    return this.http.delete<DemandeById>("https://localhost:7290/Demandes/DelDemande?id=" + id);
   }
 }
 

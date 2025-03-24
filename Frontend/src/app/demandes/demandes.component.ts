@@ -44,7 +44,7 @@ export class DemandesComponent {
     this.route.params.subscribe(params=>{
       let id= params['id']
       if(id){
-        this.titreForme = "Vous pouvez modifier votre demande ici"
+        this.titreForme = "Modification de votre demande"
         this.demandesService.GetDemandeById(id).subscribe(DemandeById=>{
           if(DemandeById){
             this.DemandeById = DemandeById; //-> Récupération de l'id de la demande pour pouvoir faire l'update ensuite
@@ -86,7 +86,7 @@ export class DemandesComponent {
     this.addDemande.DEM_Comm= form.value.comment;
     this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
     this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
-    this.addDemande.DEM_DureeHeures = 53;
+    this.addDemande.TypeJournee = (document.getElementById("typeJournee") as HTMLSelectElement).value;
     
     // Vérifier si c'est une modification ou un ajout
     if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
@@ -118,5 +118,8 @@ export class DemandesComponent {
         console.error(error);
       });
   }
+  }
+  navigateToCompteur(){
+    this.router.navigate(['/compteur']);
   }
 }
