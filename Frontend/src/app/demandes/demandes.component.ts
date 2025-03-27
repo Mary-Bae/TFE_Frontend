@@ -62,8 +62,8 @@ export class DemandesComponent {
   Save(form: FormGroup){
     //Pour convertir les dates récupérées du NgbDateStruct en format date
     const formatDate = (date: NgbDateStruct): Date => {
-      return new Date(date.year, date.month - 1, date.day);
-    };
+      return new Date(date.year, date.month - 1, date.day, 12); 
+       };
 
     const dateBegin = form.value.dateBegin;
     const dateEnd = form.value.dateEnd;

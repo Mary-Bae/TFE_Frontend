@@ -3,6 +3,6 @@ export class Compteur{
     TYPE_Libelle: String;
     TAEM_NbrJoursAn: number; 
     TAEM_Heures: number;
-    DEM_DureeHeures: number;
-    DureeRestante: number;
+    TAEM_HeuresPrises: number;
+    TAEM_HeuresRestantes: number;
 }
