@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DemandesService } from '../shared/demandes.service';
-
+import { JoursFeriesService } from '../shared/jours-feries.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +15,7 @@ export class DashboardComponent implements OnInit{
   calendarOptions: any = {
     plugins: [dayGridPlugin],
     height: '550PX',
-    events: [],
+    eventSources: [],  //Pour permettre des données provenant de plusieurs sources
     weekends: false,
     locale: 'fr',
     buttonText: {
@@ -27,7 +25,7 @@ export class DashboardComponent implements OnInit{
       list:     'Liste'
   }
   };
-  constructor(private demandesService: DemandesService) {}
+  constructor(private demandesService: DemandesService, private joursFeriesService: JoursFeriesService) {}
 
   ngOnInit() : void{
     const couleurParType: { [key: number]: string } = {
@@ -44,7 +42,7 @@ export class DashboardComponent implements OnInit{
     };
 
     this.demandesService.GetDemandesByUser().subscribe(demandes => {
-      this.calendarOptions.events = demandes.map(demande => {
+      const demandesEvents  = demandes.map(demande => {
         const couleur = couleurParType[demande.DEM_TYPE_id];
         return {
           title: demande.TYPE_Libelle,
@@ -55,6 +53,22 @@ export class DashboardComponent implements OnInit{
           allDay: true
         };
       });
+  
+  this.joursFeriesService.GetJoursFeries().subscribe(jourFerie => {
+    const joursFeriesEvent =  jourFerie.map(jourFerie => {
+      return {
+        title: jourFerie.JFER_Description,
+        start: jourFerie.JFER_DteFerie,
+        end: jourFerie.JFER_DteFerie,
+        backgroundColor: "gray",
+        allDay: true
+      };
+    });
+    // Ici on rajoute les events des differentes sources à eventSources
+    this.calendarOptions.eventSources = [
+      { events: demandesEvents },
+      { events: joursFeriesEvent }
+    ];
   });
   }
-}
+)}}

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
-import { TypeAbsence } from '../shared/TypeAbsence.model';
+import { TypeAbsence } from '../shared/type-absence.model';
 import { DemandesService } from '../shared/demandes.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
