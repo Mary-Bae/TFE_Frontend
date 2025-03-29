@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DemandesService } from '../shared/demandes.service';
 import { Router } from '@angular/router';
@@ -12,14 +12,16 @@ import Swal from 'sweetalert2';
   templateUrl: './histo-demandes.component.html',
   styleUrl: './histo-demandes.component.css'
 })
-export class HistoDemandesComponent {
+export class HistoDemandesComponent implements OnInit{
 
   demandes: any;
 
   constructor(private demandesService: DemandesService, private router:Router){
-    this.loadDemandes();
+    
     
   }
+  ngOnInit(): void {
+    this.loadDemandes();  }
 
   loadDemandes() {
     this.demandesService.GetDemandesByUser().subscribe(x=>{
