@@ -22,7 +22,18 @@
             <li><a class="dropdown-item" href="compteur">Compteur de congés</a></li>
           </ul>
         </li>
-        
+        <ng-container *ngIf="auth.user$ | async as user">
+          <li class="nav-item dropdown" *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']?.includes('Manager')">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Espace Manager
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="">Calendrier commun</a></li>
+              <li><a class="dropdown-item" href="">Demandes de l'équipe</a></li>
+              <li><a class="dropdown-item" href="">Solde de congés</a></li>
+            </ul>
+          </li>
+        </ng-container>
         
       </ul>
       <div class="ms-auto">
