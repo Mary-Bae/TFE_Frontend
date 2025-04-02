@@ -1,12 +1,10 @@
-<div class="row">
-      <button class="btn btn-blue" type="button" (click)="callWebApi()">Call web api private</button>
-</div>
-<div class="row">
-      <button class="btn btn-dark" type="button" (click)="callWebApiEmployee()">Call web api private employee</button>
-</div>
-<div class="row">
-      <button class="btn btn-light" type="button" (click)="callWebApiAdmin()">Call web api private Admin</button>
-</div>
-      <br>
-      Response : <br>
-      {{response}}
+
+
+<div class="container mt-4">
+      <div class="row justify-content-center">
+          <div class="col-md-10">
+            <h3>Vue d'ensemble de votre calendrier</h3>
+              <full-calendar [options]="calendarOptions"></full-calendar>
+          </div>
+      </div>
+  </div>

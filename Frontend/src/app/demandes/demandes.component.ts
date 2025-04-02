@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
-import { TypeAbsence } from '../shared/TypeAbsence.model';
+import { TypeAbsence } from '../shared/type-absence.model';
 import { DemandesService } from '../shared/demandes.service';
+import { ManagerService } from '../shared/manager.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import emailjs from '@emailjs/browser';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-demandes',
@@ -15,7 +18,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './demandes.component.html',
   styleUrl: './demandes.component.css'
 })
-export class DemandesComponent {
+export class DemandesComponent implements OnInit {
   model:  NgbDateStruct | null = null;
   formAbs: FormGroup;
   demande: Demandes = new Demandes();
@@ -24,7 +27,12 @@ export class DemandesComponent {
   typeAbsences: TypeAbsence[] = [];
   titreForme: string = "";
 
-  constructor(private demandesService: DemandesService, private router: Router, private route: ActivatedRoute ){
+  ngOnInit(): void {
+    emailjs.init("pu1f9WnNWPxY7Rivm");
+  }
+   
+
+  constructor(private demandesService: DemandesService, private managerService: ManagerService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
     this.formAbs= new FormGroup({
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
@@ -59,6 +67,29 @@ export class DemandesComponent {
       }
     })
   }
+
+  envoyerEmail(demande: any) {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.managerService.GetMailManagerByUser().subscribe(managerEmail => {
+          const templateParams = {
+            name: user.name,
+            SendTo: managerEmail.EMP_Email
+          };
+  
+        emailjs.send('FlexiTime', 'DemandeAbsence', templateParams).then(
+          (response) => {
+            console.log('SUCCÈS!', response.status, response.text);
+          },
+          (error) => {
+            console.log('ÉCHEC...', error);
+          }
+        );
+      });
+      }
+    })
+    }
+
   Save(form: FormGroup){
     //Pour convertir les dates récupérées du NgbDateStruct en format date
     const formatDate = (date: NgbDateStruct): Date => {
@@ -80,6 +111,7 @@ export class DemandesComponent {
       });
       return;
       }
+      
 
     this.addDemande.DEM_DteDebut = formatDate(dateBegin);
     this.addDemande.DEM_DteFin = formatDate(dateEnd);
@@ -98,8 +130,10 @@ export class DemandesComponent {
             title:'Demande d\'absence mise à jour avec succès!',
             confirmButtonText: 'OK',
           }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je change de route
+            
             this.router.navigate(['/histo-demandes']);
           });
+          this.envoyerEmail(this.addDemande);
         }, error => {
           console.error(error);
         });
@@ -114,6 +148,7 @@ export class DemandesComponent {
         }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je vide la form pour entrer une autre demande
           this.formAbs.reset();
         });
+        this.envoyerEmail(this.addDemande);
       }, error => {
         console.error(error);
       });
