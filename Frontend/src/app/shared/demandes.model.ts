@@ -1,5 +1,6 @@
 export class Demandes{
     DEM_id: number;
+    EMP_Nom: String;
     DEM_DteDemande: Date;
     DEM_DteDebut: Date;
     DEM_DteFin: Date;    
