@@ -22,15 +22,13 @@
             <li><a class="dropdown-item" href="compteur">Compteur de congés</a></li>
           </ul>
         </li>
-        
-        
       </ul>
       <div class="ms-auto">
         <span class="navbar-text custom-text text-warning" *ngIf="auth.user$ | async as user">
           Bienvenue {{user.name}}
         </span>
         <span>
-          <button (click)="changeTheme()">Thème Clair / Sombre</button>
+          <button class="btn btn-dark ms-3" (click)="changeTheme()">Thème ☀️/🌙</button>
         </span>
       </div>
     </div>
