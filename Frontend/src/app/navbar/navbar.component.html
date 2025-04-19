@@ -10,18 +10,28 @@
           <a class="nav-link active" aria-current="page" href="home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="dashboard">dashboard</a>
+          <a class="nav-link" href="calendrier">Calendrier personnel</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Demandes d'absence
-          </a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mes demandes d'absence</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="demandes">Créer une demande</a></li>
             <li><a class="dropdown-item" href="histo-demandes">Historique des demandes</a></li>
             <li><a class="dropdown-item" href="compteur">Compteur de congés</a></li>
           </ul>
         </li>
+        <ng-container *ngIf="auth.user$ | async as user">
+          <li class="nav-item dropdown" *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']?.includes('Manager')">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Espace Manager
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="">Calendrier commun</a></li>
+              <li><a class="dropdown-item" href="demandes-equipe">Demandes de l'équipe</a></li>
+              <li><a class="dropdown-item" href="">Solde de congés</a></li>
+            </ul>
+          </li>
+        </ng-container>
       </ul>
       <div class="ms-auto">
         <span class="navbar-text custom-text text-warning" *ngIf="auth.user$ | async as user">
