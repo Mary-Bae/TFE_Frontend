@@ -3,7 +3,7 @@
 <div class="container mt-4">
     <h3>Historique de toutes vos demandes</h3>
     <br><br>
-        <table class="table table-striped table-bordered">
+        <table class="table table-custom table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th hidden scope="col">id</th>
@@ -28,8 +28,8 @@
                         <td>{{ demande.STAT_Libelle }}</td>
                         <td>
                             <div class="d-flex justify-content-start gap-2">
-                                <button class="btn btn-dark" type="button"(click)="edit(demande.DEM_id)">Modifier</button>
-                                <button class="btn btn-dark" type="button"(click)="delete(demande.DEM_id)">Supprimer</button>
+                                <button class="btn btn-outline-primary" type="button"(click)="edit(demande.DEM_id)">Modifier</button>
+                                <button class="btn btn-outline-danger" type="button"(click)="delete(demande.DEM_id)">Supprimer</button>
                             </div>
                             
                        </td>

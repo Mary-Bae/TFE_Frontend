@@ -29,6 +29,9 @@
         <span class="navbar-text custom-text text-warning" *ngIf="auth.user$ | async as user">
           Bienvenue {{user.name}}
         </span>
+        <span>
+          <button (click)="changeTheme()">Thème Clair / Sombre</button>
+        </span>
       </div>
     </div>
   </div>
