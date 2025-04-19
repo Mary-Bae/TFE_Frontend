@@ -5,13 +5,13 @@ import { DemandesService } from '../shared/demandes.service';
 import { JoursFeriesService } from '../shared/jours-feries.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-calendrier',
   standalone: true,
   imports: [FullCalendarModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './calendrier.component.html',
+  styleUrl: './calendrier.component.css'
 })
-export class DashboardComponent implements OnInit{
+export class CalendrierComponent implements OnInit{
   calendarOptions: any = {
     plugins: [dayGridPlugin],
     height: '550PX',
