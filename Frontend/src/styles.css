@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+.color-scheme-light {
+    --background-color: #ffffff;
+    --text-color: #000000;
+  }
+  
+  .color-scheme-dark {
+    --background-color: #121212;
+    --text-color: #ffffff;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+.table-custom, .table-custom thead, .table-custom tbody, .table-custom th, .table-custom td {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+ 

@@ -7,7 +7,7 @@
     <p></p>
     <p *ngIf="(auth.isAuthenticated$ | async) === false" class="text-danger">Veuillez vous connecter afin d'accéder à votre profil</p>
     <div class="d-grid gap-2 col-3 mx-auto">
-      <button *ngIf="(auth.isAuthenticated$ | async) === false" class="btn btn-dark" (click)="login()" type="button">Login</button>
-      <button *ngIf="(auth.isAuthenticated$ | async)" class="btn btn-dark" (click)="logout()" type="button">Logout</button>
+      <button *ngIf="(auth.isAuthenticated$ | async) === false" class="btn btn-outline-success" (click)="login()" type="button">Login</button>
+      <button *ngIf="(auth.isAuthenticated$ | async)" class="btn btn-outline-danger" (click)="logout()" type="button">Logout</button>
     </div>
   </div>
