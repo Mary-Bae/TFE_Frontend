@@ -38,5 +38,8 @@ return this.http.post("https://localhost:7290/Demandes/AjoutDemandeAbsence", add
   GetDemandesEquipe(): Observable<Demandes[]>{
     return this.http.get<Array<Demandes>>("https://localhost:7290/Demandes/GetDemandesEquipe");
   }
+  updStatutDemande(id: number, statut: number) {
+    return this.http.put("https://localhost:7290/Demandes/MajStatutDemande?pDemId=" +id + "&pStatut=" + statut, null);
+  }
 }
 

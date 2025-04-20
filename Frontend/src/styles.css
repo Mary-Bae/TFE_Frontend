@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 .color-scheme-light {
-    --background-color: #ffffff;
+    --background-color: #dddddd00;
     --text-color: #000000;
   }
   
   .color-scheme-dark {
     --background-color: #121212;
-    --text-color: #ffffff;
+    --text-color: #ffffffc7;
   }
   
   body {
@@ -18,5 +18,28 @@
   background-color: var(--background-color);
   color: var(--text-color);
   border-color: rgba(255, 255, 255, 0.2);
+}
+/* Structure principale pour coller le footer */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* toute la hauteur de la fenêtre */
+}
+
+.content {
+  flex: 1; /* prend tout l'espace dispo */
+  padding: 20px; /* optionnel */
+}
+
+.footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 20px 0;
 }
  
