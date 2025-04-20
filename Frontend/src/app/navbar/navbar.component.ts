@@ -18,5 +18,8 @@ changeTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   this.theme.update(next);
 }
+logout(){
+  this.auth.logout();
+}
 }
 

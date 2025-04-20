@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Manager } from './manager.model';
+import { Employe } from './employe.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ManagerService {
+export class EmployeService {
 
   constructor(private http: HttpClient) { }
 
-  GetMailManagerByUser(): Observable<Manager>{
+  GetMailManagerByUser(): Observable<Employe>{
   
-    return this.http.get<Manager>("https://localhost:7290/Manager/GetMailManagerByUser");
+    return this.http.get<Employe>("https://localhost:7290/Employe/GetMailManagerByUser");
   }
 }
 

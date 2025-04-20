@@ -24,4 +24,14 @@ export class DemandesEquipeComponent {
       this.demandes=x
     })
   }
+  majStatut(demandeId: number, statut: number) {
+    this.demandesService.updStatutDemande(demandeId, statut).subscribe({
+      next: () => {
+        this.loadDemandes();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du statut :', err);
+      }
+    });
+  }
 }

@@ -36,7 +36,9 @@
       <div class="ms-auto">
         <span class="navbar-text custom-text text-warning" *ngIf="auth.user$ | async as user">
           Bienvenue {{user.name}}
+          <button *ngIf="(auth.isAuthenticated$ | async)" class="btn btn-outline-danger ms-3" (click)="logout()" type="button">Logout</button>
         </span>
+          
         <span>
           <button class="btn btn-dark ms-3" (click)="changeTheme()">Thème ☀️/🌙</button>
         </span>

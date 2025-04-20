@@ -4,12 +4,12 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
 import { TypeAbsence } from '../shared/type-absence.model';
 import { DemandesService } from '../shared/demandes.service';
-import { ManagerService } from '../shared/manager.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import emailjs from '@emailjs/browser';
 import { AuthService } from '@auth0/auth0-angular';
+import { EmployeService } from '../shared/employe.service';
 
 @Component({
   selector: 'app-demandes',
@@ -28,11 +28,11 @@ export class DemandesComponent implements OnInit {
   titreForme: string = "";
 
   ngOnInit(): void {
-    emailjs.init("pu1f9WnNWPxY7Rivm");
+    emailjs.init("oWMdcekgw1oCXmcBu");
   }
    
 
-  constructor(private demandesService: DemandesService, private managerService: ManagerService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
+  constructor(private demandesService: DemandesService, private employeService: EmployeService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
     this.formAbs= new FormGroup({
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
@@ -71,7 +71,7 @@ export class DemandesComponent implements OnInit {
   envoyerEmail(demande: any) {
     this.auth.user$.subscribe(user => {
       if (user) {
-        this.managerService.GetMailManagerByUser().subscribe(managerEmail => {
+        this.employeService.GetMailManagerByUser().subscribe(managerEmail => {
           const templateParams = {
             name: user.name,
             SendTo: managerEmail.EMP_Email
