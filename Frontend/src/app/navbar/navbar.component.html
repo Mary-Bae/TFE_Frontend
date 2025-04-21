@@ -1,14 +1,12 @@
 <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">FlexiTime</a>
+    <a class="navbar-brand fs-4" href="#">
+    <span style="color: #0dcaf0; font-weight: bold;">Flexi</span><span style="color: white;">Time</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="home">Home</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="calendrier">Calendrier personnel</a>
         </li>
@@ -26,9 +24,8 @@
               Espace Manager
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="">Calendrier commun</a></li>
+              <li><a class="dropdown-item" href="calendrier-commun">Calendrier commun</a></li>
               <li><a class="dropdown-item" href="demandes-equipe">Demandes de l'équipe</a></li>
-              <li><a class="dropdown-item" href="">Solde de congés</a></li>
             </ul>
           </li>
         </ng-container>
@@ -37,8 +34,7 @@
         <span class="navbar-text custom-text text-warning" *ngIf="auth.user$ | async as user">
           Bienvenue {{user.name}}
           <button *ngIf="(auth.isAuthenticated$ | async)" class="btn btn-outline-danger ms-3" (click)="logout()" type="button">Logout</button>
-        </span>
-          
+        </span>  
         <span>
           <button class="btn btn-dark ms-3" (click)="changeTheme()">Thème ☀️/🌙</button>
         </span>
