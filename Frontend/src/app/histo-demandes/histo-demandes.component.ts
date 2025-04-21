@@ -29,25 +29,28 @@ export class HistoDemandesComponent implements OnInit{
     })
   }
 
-  edit(id:Int32Array){
+edit(id:Int32Array){
 this.router.navigate(['demandes', id])
   }
 
   delete(id: number) {
     if (confirm('Voulez-vous vraiment annuler cette demande ?')) {
-      this.demandesService.DeleteDemande(id).subscribe(response => {    
-        console.log('Course deleted successfully', response);
-        Swal.fire({
-                  icon: 'success',
-                  title: 'Demande supprimée avec succès !',
-                  confirmButtonText: 'OK',
-              });
-        this.loadDemandes();
-      },
-      error => {
-        console.error("Failed to delete course:", error);
-      }
-    );
-      }     
-   }
-}
+      this.demandesService.DeleteDemande(id).subscribe({
+        next: (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Demande supprimée avec succès !',
+            confirmButtonText: 'OK',
+          });
+          this.loadDemandes();
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur dans la suppression de la demande !' ,
+            //text: err.error?.toString() || err.message,
+            confirmButtonText: 'OK',
+          });
+        }
+      });
+  }}}

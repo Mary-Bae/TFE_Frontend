@@ -1,0 +1,42 @@
+<div class="container mt-4">
+    <h3>Liste d'utilisateurs de FlexiTime</h3>
+    <br><br>
+        <table class="table table-custom table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th hidden scope="col">id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénoms</th>
+                    <th scope="col">Sexe</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Code d'authentification</th>
+                    <th scope="col">Rôle</th>
+                    <th scope="col">Manager</th>
+                    <th scope="col">Modifier utilisateur / Attribuer absences</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employe of employes; let i = index">
+
+                        <td hidden>{{employe.EMP_id}}</td>
+                        <td>{{ employe.EMP_Nom }}</td>
+                        <td>{{ employe.EMP_Prenom }} {{ employe.EMP_Pren2 }}</td>
+                        <td>{{ employe.EMP_Sexe }}</td>
+                        <td>{{ employe.EMP_Email }}</td>
+                        <td>{{ employe.EMP_Auth }}</td>
+                        <td>{{ employe.ROL_Libelle }}</td>
+                        <td>{{ employe.EMP_Manager }}</td>
+                        <td>
+                            <div class="d-flex justify-content-start gap-2">
+                                <button class="btn btn-outline-primary" type="button"(click)="edit(employe.EMP_id)">Absences</button>
+                                <button class="btn btn-outline-warning" type="button"(click)="edit(employe.EMP_id)">Modifier</button>
+                                <button class="btn btn-outline-danger" type="button"(click)="edit(employe.EMP_id)">Supprimer</button>
+
+                            </div>
+                       </td>
+                    </tr>
+                
+            </tbody>
+        </table>
+</div>
+

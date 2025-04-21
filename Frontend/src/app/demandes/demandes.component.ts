@@ -122,9 +122,9 @@ export class DemandesComponent implements OnInit {
     
     // Vérifier si c'est une modification ou un ajout
     if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
-      console.log("Mise à jour de la demande :", this.DemandeById);
       this.demandesService.updateDemande(this.DemandeById.DEM_id, this.addDemande)
-        .subscribe(() => {
+      .subscribe({
+        next: () => {
           Swal.fire({
             icon: 'success',
             title:'Demande d\'absence mise à jour avec succès!',
@@ -134,13 +134,20 @@ export class DemandesComponent implements OnInit {
             this.router.navigate(['/histo-demandes']);
           });
           this.envoyerEmail(this.addDemande);
-        }, error => {
-          console.error(error);
+        }, 
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title:'Erreur lors de la mise à jour de la demande ! ',
+            //text: err.error?.toString() || err.message,
+            confirmButtonText: 'OK',
+          })
+        }
         });
   } else { // Sinon, on fait un ajout
-      console.log("Ajout d'une nouvelle demande :", this.addDemande);
       this.demandesService.PostDemande(this.addDemande)
-      .subscribe(() => {
+      .subscribe({
+        next: () => {
         Swal.fire({
           icon: 'success',
           title:'Demande d\'absence rajoutée avec succès!',
@@ -149,11 +156,18 @@ export class DemandesComponent implements OnInit {
           this.formAbs.reset();
         });
         this.envoyerEmail(this.addDemande);
-      }, error => {
-        console.error(error);
+      }, 
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur lors de l\'ajout de la demande !',
+          //text: err.error?.toString() || err.message,
+          confirmButtonText: 'OK',
+        })
+      }
       });
   }
-  }
+}
   navigateToCompteur(){
     this.router.navigate(['/compteur']);
   }

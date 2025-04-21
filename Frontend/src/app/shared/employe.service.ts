@@ -17,5 +17,10 @@ export class EmployeService {
   GetMailByDemande(demandeId: number): Observable<Employe>{
     return this.http.get<Employe>("https://localhost:7290/Employe/GetMailByDemande?demId=" + demandeId);
   }
+
+  GetUsers(): Observable<Employe>{
+    return this.http.get<Employe>("https://localhost:7290/Employe/GetUsers");
+
+  }
 }
 
