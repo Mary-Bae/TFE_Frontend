@@ -5,13 +5,14 @@ import { DemandesService } from '../shared/demandes.service';
 import { JoursFeriesService } from '../shared/jours-feries.service';
 
 @Component({
-  selector: 'app-calendrier',
+  selector: 'app-calendrier-commun',
   standalone: true,
   imports: [FullCalendarModule],
-  templateUrl: './calendrier.component.html',
-  styleUrl: './calendrier.component.css'
+  templateUrl: './calendrier-commun.component.html',
+  styleUrl: './calendrier-commun.component.css'
 })
-export class CalendrierComponent implements OnInit{
+export class CalendrierCommunComponent implements OnInit {
+
   calendarOptions: any = {
     plugins: [dayGridPlugin],
     height: '550PX',
@@ -24,26 +25,22 @@ export class CalendrierComponent implements OnInit{
       week:     'Semaine',
       list:     'Liste'
   }
-  };
-  constructor(private demandesService: DemandesService, private joursFeriesService: JoursFeriesService) {}
+}
+constructor(private demandesService: DemandesService, private joursFeriesService: JoursFeriesService) {}
 
-  ngOnInit() : void{
-    const couleurParType: { [key: number]: string } = {
-      1: 'green',      //congés payés
-      2: 'blue',       // télétravail
-      3: 'purple',     // congé-éducation payé
-      4: 'red',    // congé de maternité
-      5: 'red',    // congé de paternité
-      6: 'red',      // interruption de carrière
-      7: 'orange',      // congé de circonstance
-      8: 'orange',     // congé pour raison impérieuse
-      9: 'yellow',    // congé politique
-      10: 'red'      // maladie
-    };
+  ngOnInit(): void {
+    const couleurParPersonne: { [key: string]: string } = {};
+    const couleurs = ['green', 'blue', 'purple', 'red', 'orange', 'yellow', '#1abc9c', '#9b59b6', '#34495e', '#e67e22'];
+    let indexCouleur = 0;
 
-    this.demandesService.GetDemandesByUser().subscribe(demandes => {
+    this.demandesService.GetDemandesEquipe().subscribe(demandes => {
       const demandesEvents  = demandes.map(demande => {
-        let couleur = couleurParType[demande.DEM_TYPE_id];
+        if (!(demande.EMP_Nom in couleurParPersonne)) {
+          couleurParPersonne[demande.EMP_Nom] = couleurs[indexCouleur];
+          indexCouleur++;
+          if (indexCouleur >= couleurs.length) indexCouleur = 0;
+        }
+        let couleur = couleurParPersonne[demande.EMP_Nom];
         let textColor = 'white';
 
         if (demande.STAT_Libelle === 'Refusé') {
@@ -55,13 +52,13 @@ export class CalendrierComponent implements OnInit{
         }
 
         return {
-          title: demande.TYPE_Libelle,
+          title: demande.EMP_Nom + ' - ' + demande.TYPE_Libelle,
           start: demande.DEM_DteDebut,
           end: new Date(new Date(demande.DEM_DteFin).setDate(new Date(demande.DEM_DteFin).getDate() + 1)), //Permet de rajouter un jour car autrement la valeur sera < dateFin au lieu de <= dateFin
           backgroundColor: couleur,
           borderColor: couleur,
           textColor: textColor,
-          allDay: true
+          allDay: true,
         };
       });
   
