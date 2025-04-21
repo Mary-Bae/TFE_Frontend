@@ -20,12 +20,19 @@
         </li>
         <ng-container *ngIf="auth.user$ | async as user">
           <li class="nav-item dropdown" *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']?.includes('Manager')">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Espace Manager
-            </a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Espace Manager</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="calendrier-commun">Calendrier commun</a></li>
               <li><a class="dropdown-item" href="demandes-equipe">Demandes de l'équipe</a></li>
+            </ul>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="auth.user$ | async as user">
+          <li class="nav-item dropdown" *ngIf="user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']?.includes('Admin')">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Espace Admin</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="">Créer un utilisateur</a></li>
+              <li><a class="dropdown-item" href="utilisateurs">Liste des utilisateurs</a></li>
             </ul>
           </li>
         </ng-container>

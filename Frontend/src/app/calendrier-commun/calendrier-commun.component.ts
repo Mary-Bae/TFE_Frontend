@@ -46,7 +46,8 @@ constructor(private demandesService: DemandesService, private joursFeriesService
         if (demande.STAT_Libelle === 'Refusé') {
           couleur = '#f5f5f5';           // gris clair
           textColor = '#dc3545';         // rouge (refusé)
-        } else if (demande.STAT_Libelle === 'En attente') {
+        } 
+        else if (demande.STAT_Libelle === 'En attente') {
           couleur = '#e6f0ff';           // bleu très clair
           textColor = '#007bff';         // bleu classique
         }
