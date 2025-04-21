@@ -43,13 +43,21 @@ export class CalendrierComponent implements OnInit{
 
     this.demandesService.GetDemandesByUser().subscribe(demandes => {
       const demandesEvents  = demandes.map(demande => {
-        const couleur = couleurParType[demande.DEM_TYPE_id];
+        let couleur = couleurParType[demande.DEM_TYPE_id];
+        let textColor = 'white';
+
+        if (demande.STAT_Libelle === 'Refusé') {
+          couleur = '#f5f5f5';
+          textColor = '#dc3545';
+        }
+
         return {
-          title: demande.TYPE_Libelle,
+          title: demande.TYPE_Libelle + " - " + demande.STAT_Libelle,
           start: demande.DEM_DteDebut,
           end: demande.DEM_DteFin,
           backgroundColor: couleur,
           borderColor: couleur,
+          textColor: textColor,
           allDay: true
         };
       });

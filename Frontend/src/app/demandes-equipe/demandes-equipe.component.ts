@@ -33,7 +33,9 @@ export class DemandesEquipeComponent implements OnInit{
       next: () => {
         this.loadDemandes();
         this.demandesService.GetDemandeById(demande.DEM_id).subscribe((demandeMAJ) => {
-          this.envoyerEmail(demandeMAJ);
+          if (demandeMAJ.DEM_STAT_id !== 1) {
+            this.envoyerEmail(demandeMAJ);
+          }
         });
       },
       error: (err) => {
@@ -50,8 +52,7 @@ export class DemandesEquipeComponent implements OnInit{
             dateDemande: new Date(demande.DEM_DteDemande).toLocaleDateString('fr-BE'),
             dateDebut: new Date(demande.DEM_DteDebut).toLocaleDateString('fr-BE'),
             dateFin: new Date(demande.DEM_DteFin).toLocaleDateString('fr-BE'),
-            statut: demande.DEM_STAT_id === 2 
-            ? 'acceptée' : demande.DEM_STAT_id === 3 ? 'refusée' : 'en cours'
+            statut: demande.DEM_STAT_id === 2 ? 'acceptée' : demande.DEM_STAT_id === 3 ? 'refusée' : 'en attente'
           };
   
         emailjs.send('FlexiTime', 'ValidationAbsence', templateParams).then(
