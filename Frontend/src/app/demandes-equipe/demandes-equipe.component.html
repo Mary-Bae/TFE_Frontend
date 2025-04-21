@@ -12,7 +12,7 @@
                     <th scope="col">Au</th>
                     <th scope="col">Commentaire</th>
                     <th scope="col">Statut</th>
-                    <th scope="col">Accepter</th>
+                    <th scope="col">Décision du manager</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +28,16 @@
                         <td>{{ demande.STAT_Libelle }}</td>
                         <td>
                             <div class="d-flex justify-content-start gap-2">
-                                <button class="btn btn-outline-success" (click)="majStatut(demande, 2)">Oui</button>
-                                <button class="btn btn-outline-danger" (click)="majStatut(demande, 3)">Non</button>
+                                    <!-- Si le statut est En cours -->
+                                <ng-container *ngIf="demande.STAT_Libelle === 'En attente'; else modifierDecision">
+                                    <button class="btn btn-outline-success" (click)="majStatut(demande, 2)">Accepter</button>
+                                    <button class="btn btn-outline-danger" (click)="majStatut(demande, 3)">Refuser</button>
+                                </ng-container>
+                                <!-- Sinon, afficher Modifier -->
+                                <ng-template #modifierDecision>
+                                    <button class="btn btn-outline-warning" (click)="majStatut(demande, 1)">Modifier la décision</button>
+                                </ng-template>
+                    
                             </div>
                        </td>
                     </tr>
