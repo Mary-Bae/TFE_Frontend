@@ -1,0 +1,53 @@
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <div class="text-center mb-4">
+            <h3>{{ titreForme }}</h3>
+        </div>
+        <form [formGroup]="formAbs" (ngSubmit)="Save(formAbs)">
+            <div class="row">
+                <div class="form-group d-flex gap-2">
+                  <div class="flex-fill">
+                    <label for="nom">Nom</label>
+                    <textarea class="form-control" id="nom" rows="1" formControlName="nom"></textarea>
+                  </div>
+                  <div class="flex-fill">
+                    <label for="prenom">Prénom</label>
+                    <textarea class="form-control" id="prenom" rows="1" formControlName="prenom"></textarea>
+                  </div>
+                  <div class="flex-fill">
+                    <label for="pren2">Prénom 2</label>
+                    <textarea class="form-control" id="pren2" rows="1" formControlName="pren2"></textarea>
+                  </div>
+                </div>
+              </div>
+
+            <div class="row">
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Sexe</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="sexe"></textarea>
+                </div> 
+              </div>
+
+              <div class="row">
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Email</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="email"></textarea>
+                </div> 
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Type d'employé</label>
+                <select formControlName="type" class="form-control, form-select" id="exampleFormControlSelect1">
+                  <option *ngFor="let roles of roles" [value]="roles.ROL_id">
+                      {{ roles.ROL_Libelle }}
+                    </option> -->
+                </select>
+              </div>
+          
+              <button class="btn btn-danger mt-3" type="submit" [disabled]="formAbs.invalid">Envoyer</button>
+          </form>
+      </div>
+      <div class="col"></div>
+</div>

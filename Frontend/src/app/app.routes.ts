@@ -8,6 +8,7 @@ import { CompteurComponent } from './compteur/compteur.component';
 import { DemandesEquipeComponent } from './demandes-equipe/demandes-equipe.component';
 import { CalendrierCommunComponent } from './calendrier-commun/calendrier-commun.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
+import { UtilisateursManagementComponent } from './utilisateurs-management/utilisateurs-management.component';
 
 export const routes: Routes = [
     { path: '', component:HomeComponent },
@@ -19,5 +20,6 @@ export const routes: Routes = [
     {path : 'compteur', canActivate : [AuthGuard], component : CompteurComponent},
     {path : 'demandes-equipe', canActivate : [AuthGuard], component : DemandesEquipeComponent},
     {path : 'calendrier-commun', canActivate : [AuthGuard], component : CalendrierCommunComponent},
-    {path : 'utilisateurs', canActivate : [AuthGuard], component : UtilisateursComponent}
+    {path : 'utilisateurs', canActivate : [AuthGuard], component : UtilisateursComponent},
+    {path : 'utilisateurs-management', canActivate : [AuthGuard], component : UtilisateursManagementComponent}
 ];

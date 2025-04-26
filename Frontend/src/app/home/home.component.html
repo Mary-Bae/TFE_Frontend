@@ -3,7 +3,7 @@
     <h2 style="font-style: italic; color: #FFA500;" *ngIf="auth.user$ | async as user">
     {{user.name}}
     </h2>
-    <p>Ici vous pourrez faire vos demandes!</p>
+    <p>Ici vous pourrez faire vos demandes d'absence !</p>
     <p></p>
     <p *ngIf="(auth.isAuthenticated$ | async) === false" class="text-danger">Veuillez vous connecter afin d'accéder à votre profil</p>
     <div class="d-grid gap-2 col-3 mx-auto">

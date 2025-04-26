@@ -30,7 +30,7 @@ constructor(private demandesService: DemandesService, private joursFeriesService
 
   ngOnInit(): void {
     const couleurParPersonne: { [key: string]: string } = {};
-    const couleurs = ['green', 'blue', 'purple', 'red', 'orange', 'yellow', '#1abc9c', '#9b59b6', '#34495e', '#e67e22'];
+    const couleurs = ['green', 'blue', 'purple', 'red', 'orange', 'yellow'];
     let indexCouleur = 0;
 
     this.demandesService.GetDemandesEquipe().subscribe(demandes => {
