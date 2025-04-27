@@ -28,7 +28,7 @@ export class UtilisateursComponent implements OnInit {
     })
   }
 edit(id:Int32Array){
-this.router.navigate(['demandes', id])
+this.router.navigate(['utilisateurs-management', id])
   }
 
   // delete(id: number) {

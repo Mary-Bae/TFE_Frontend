@@ -30,4 +30,10 @@ export class EmployeService {
   
     return this.http.get<Array<EmployeNoms>>("https://localhost:7290/Employe/GetManagers");
   }
+   updateEmploye(id: number, employe: Employe) {
+      return this.http.put("https://localhost:7290/Employe/UpdateEmploye?id=" +id, employe);
+    }
+    GetEmployeById(id: number){
+      return this.http.get<Employe>("https://localhost:7290/Employe/GetEmployeById?id=" + id);
+    }
 }
