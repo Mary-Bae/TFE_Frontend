@@ -16,36 +16,39 @@
                     <label for="prenom">Prénom</label>
                     <textarea class="form-control" id="prenom" rows="1" formControlName="prenom"></textarea>
                   </div>
-                  <div class="flex-fill">
-                    <label for="pren2">Prénom 2</label>
-                    <textarea class="form-control" id="pren2" rows="1" formControlName="pren2"></textarea>
-                  </div>
                 </div>
               </div>
-
-            <div class="row">
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Sexe</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="sexe"></textarea>
-                </div> 
+              <div class="form-group d-flex gap-2">
+                <div class="flex-fill">
+                  <label for="pren2">Prénom 2</label>
+                  <textarea class="form-control" id="pren2" rows="1" formControlName="pren2"></textarea>
+                </div>
+                <div class="flex-fill">
+                  <label for="sexe">Sexe</label>
+                  <select id="sexe" class="form-control" formControlName="sexe">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="F">Féminin</option>
+                    <option value="M">Masculin</option>
+                  </select>
+                </div>
               </div>
-
-              <div class="row">
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Email</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="email"></textarea>
-                </div> 
-              </div>
-
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Type d'employé</label>
-                <select formControlName="type" class="form-control, form-select" id="exampleFormControlSelect1">
-                  <option *ngFor="let roles of roles" [value]="roles.ROL_id">
-                      {{ roles.ROL_Libelle }}
-                    </option> -->
+                <select formControlName="role" class="form-control, form-select" id="exampleFormControlSelect1">
+                  <option *ngFor="let role of roles" [value]="role.ROL_id">
+                      {{ role.ROL_Libelle }}
+                    </option>
                 </select>
               </div>
-          
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Manager</label>
+                <select formControlName="manager" class="form-control, form-select" id="exampleFormControlSelect1">
+                  <option *ngFor="let manager of managers" [value]="manager.EMP_id">
+                      {{ manager.EMP_Nom }}
+                    </option>
+                </select>  
+              </div>
+                 
               <button class="btn btn-danger mt-3" type="submit" [disabled]="formAbs.invalid">Envoyer</button>
           </form>
       </div>
