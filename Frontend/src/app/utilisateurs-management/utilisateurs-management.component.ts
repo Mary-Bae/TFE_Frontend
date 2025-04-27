@@ -30,7 +30,7 @@ export class UtilisateursManagementComponent {
       nom: new FormControl('', Validators.required),
       prenom: new FormControl('', Validators.required),
       pren2: new FormControl(''),
-      sexe: new FormControl(''),
+      sexe: new FormControl('', Validators.required),
       manager: new FormControl(null),
       role: new FormControl('', Validators.required)
     });
@@ -46,13 +46,17 @@ export class UtilisateursManagementComponent {
       let id= params['id']
       if(id){
         this.titreForme = "Modification de votre demande"
-        // this.employeService.GetEmployeById(id).subscribe(EmployeById=>{
-        //   if(EmployeById){
-        //     this.EmployeById = EmployeById; //-> Récupération de l'id de de l'employe pour pouvoir faire l'update ensuite
-        //     this.formAbs.controls['nom'].setValue(EmployeById.EMP_Nom);
-        //     this.formAbs.controls['prenom'].setValue(EmployeById.EMP_);
-        //   }
-        // })
+        this.employeService.GetEmployeById(id).subscribe(EmployeById=>{
+          if(EmployeById){
+            this.employe = EmployeById; //-> Récupération de l'id de de l'employe pour pouvoir faire l'update ensuite
+            this.formAbs.controls['nom'].setValue(EmployeById.EMP_Nom);
+            this.formAbs.controls['prenom'].setValue(EmployeById.EMP_Prenom);
+            this.formAbs.controls['pren2'].setValue(EmployeById.EMP_Pren2);
+            this.formAbs.controls['sexe'].setValue(EmployeById.EMP_Sexe);
+            this.formAbs.controls['manager'].setValue(EmployeById.EMP_Manager_id);
+            this.formAbs.controls['role'].setValue(EmployeById.EMP_ROL_id);
+          }
+        })
       } else {
         this.titreForme = "Nouvel employé"; 
       }
@@ -60,7 +64,7 @@ export class UtilisateursManagementComponent {
   }
 
   Save(form: FormGroup){
-    this.employe.EMP_Nom= form.value.nom;
+    this.employe.EMP_Nom = form.value.nom;
     this.employe.EMP_Prenom = form.value.prenom;
     this.employe.EMP_Pren2 = form.value.pren2;
     this.employe.EMP_Sexe = form.value.sexe;
@@ -68,29 +72,29 @@ export class UtilisateursManagementComponent {
     this.employe.EMP_Manager_id = form.value.manager;
     
     // Vérifier si c'est une modification ou un ajout
-  //   if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
-  //     this.demandesService.updateDemande(this.DemandeById.DEM_id, this.addDemande)
-  //     .subscribe({
-  //       next: () => {
-  //         Swal.fire({
-  //           icon: 'success',
-  //           title:'Demande d\'absence mise à jour avec succès!',
-  //           confirmButtonText: 'OK',
-  //         }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je change de route
+    if (this.employe && this.employe.EMP_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
+      this.employeService.updateEmploye(this.employe.EMP_id, this.employe)
+      .subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title:'Employé mise à jour avec succès!',
+            confirmButtonText: 'OK',
+          }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je change de route
             
-  //           this.router.navigate(['/utilisateurs']);
-  //         });
-  //       }, 
-  //       error: (err) => {
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title:'Erreur lors de la mise à jour de la demande ! ',
-  //           //text: err.error?.toString() || err.message,
-  //           confirmButtonText: 'OK',
-  //         })
-  //       }
-  //       });
-  // } else { // Sinon, on fait un ajout
+            this.router.navigate(['/utilisateurs']);
+          });
+        }, 
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title:'Erreur ! ',
+            //text: err.error?.toString() || err.message,
+            confirmButtonText: 'OK',
+          })
+        }
+        });
+  } else { // Sinon, on fait un ajout
       this.employeService.CreerEmploye(this.employe)
       .subscribe({
         next: () => {
@@ -113,5 +117,5 @@ export class UtilisateursManagementComponent {
   }
 }
 
-// }
+}
 

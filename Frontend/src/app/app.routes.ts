@@ -21,5 +21,6 @@ export const routes: Routes = [
     {path : 'demandes-equipe', canActivate : [AuthGuard], component : DemandesEquipeComponent},
     {path : 'calendrier-commun', canActivate : [AuthGuard], component : CalendrierCommunComponent},
     {path : 'utilisateurs', canActivate : [AuthGuard], component : UtilisateursComponent},
-    {path : 'utilisateurs-management', canActivate : [AuthGuard], component : UtilisateursManagementComponent}
+    {path : 'utilisateurs-management', canActivate : [AuthGuard], component : UtilisateursManagementComponent},
+    {path : 'utilisateurs-management/:id', canActivate : [AuthGuard], component : UtilisateursManagementComponent}
 ];
