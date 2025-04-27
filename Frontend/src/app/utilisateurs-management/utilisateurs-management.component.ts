@@ -7,6 +7,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { EmployeService } from '../shared/employe.service';
 import { RoleService } from '../shared/role.service';
 import { Employe } from '../shared/employe.model';
+import { EmployeNoms } from '../shared/employe.model';
 import { Roles } from '../shared/role.model';
 
 @Component({
@@ -21,6 +22,7 @@ export class UtilisateursManagementComponent {
   employe: Employe = new Employe();
   titreForme: string = "";
   roles: Roles[] = [];
+  managers:EmployeNoms[] = [];
 
 
  constructor(private employeService: EmployeService, private roleService: RoleService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
@@ -28,12 +30,15 @@ export class UtilisateursManagementComponent {
       nom: new FormControl('', Validators.required),
       prenom: new FormControl('', Validators.required),
       pren2: new FormControl(''),
-      sexe: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      manager: new FormControl(null)
+      sexe: new FormControl(''),
+      manager: new FormControl(null),
+      role: new FormControl('', Validators.required)
     });
     this.roleService.GetRoles().subscribe(role => {
       this.roles = role;
+    });
+    this.employeService.GetManagers().subscribe(manager => {
+      this.managers = manager;
     });
 
 
@@ -58,9 +63,9 @@ export class UtilisateursManagementComponent {
     this.employe.EMP_Nom= form.value.nom;
     this.employe.EMP_Prenom = form.value.prenom;
     this.employe.EMP_Pren2 = form.value.pren2;
-    this.employe.EMP_Email = form.value.email;
     this.employe.EMP_Sexe = form.value.sexe;
-    this.employe.EMP_Manager = form.value.manager;
+    this.employe.EMP_ROL_id = form.value.role;
+    this.employe.EMP_Manager_id = form.value.manager;
     
     // Vérifier si c'est une modification ou un ajout
   //   if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update

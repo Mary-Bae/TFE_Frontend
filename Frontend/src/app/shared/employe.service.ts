@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employe } from './employe.model';
-
+import { EmployeNoms } from './employe.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +25,9 @@ export class EmployeService {
       console.log('Envoi de la requête POST au backend :', employe);
   return this.http.post("https://localhost:7290/Employe/CreateUser", employe)
 }
+
+  GetManagers(): Observable<EmployeNoms[]>{
+  
+    return this.http.get<Array<EmployeNoms>>("https://localhost:7290/Employe/GetManagers");
+  }
 }
