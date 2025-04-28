@@ -27,7 +27,6 @@ export class EmployeService {
 }
 
   GetManagers(): Observable<EmployeNoms[]>{
-  
     return this.http.get<Array<EmployeNoms>>("https://localhost:7290/Employe/GetManagers");
   }
    updateEmploye(id: number, employe: Employe) {
@@ -36,4 +35,8 @@ export class EmployeService {
     GetEmployeById(id: number){
       return this.http.get<Employe>("https://localhost:7290/Employe/GetEmployeById?id=" + id);
     }
+      DelEmploye(id: number)
+      { 
+        return this.http.delete<Employe>("https://localhost:7290/Employe/DelEmploye?id=" + id);
+      }
 }
