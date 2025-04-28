@@ -11,13 +11,13 @@ import { EmployeNoms } from '../shared/employe.model';
 import { Roles } from '../shared/role.model';
 
 @Component({
-  selector: 'app-utilisateurs-management',
+  selector: 'app-employes-management',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './utilisateurs-management.component.html',
-  styleUrl: './utilisateurs-management.component.css'
+  templateUrl: './employes-management.component.html',
+  styleUrl: './employes-management.component.css'
 })
-export class UtilisateursManagementComponent {
+export class EmployesManagementComponent {
   formAbs: FormGroup;
   employe: Employe = new Employe();
   titreForme: string = "";
