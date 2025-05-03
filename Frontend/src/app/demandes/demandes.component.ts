@@ -26,6 +26,8 @@ export class DemandesComponent implements OnInit {
   DemandeById: DemandeById = new DemandeById();
   typeAbsences: TypeAbsence[] = [];
   titreForme: string = "";
+  showDuree = false;
+
 
   ngOnInit(): void {
     emailjs.init("oWMdcekgw1oCXmcBu");
@@ -43,7 +45,7 @@ export class DemandesComponent implements OnInit {
       this.typeAbsences = types;
     });
 
-    //Pour convertir les dates récupérées du backend en format NgbDateStruct, format que mon Datepicker comprend
+    //Pour convertir les dates récupérées du backend en format NgbDateStruct
     const formatNgbDate = (sDate: Date): NgbDateStruct => {
       const date = new Date(sDate);
       return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
@@ -65,6 +67,21 @@ export class DemandesComponent implements OnInit {
       } else {
         this.titreForme = "Nouvelle Demande d'Absence"; 
       }
+
+      // Verifie si on selectionne une journée
+    this.formAbs.valueChanges.subscribe(() => {
+      const d1 = this.formAbs.get('dateBegin')?.value;
+      const d2 = this.formAbs.get('dateEnd')?.value;
+    
+      if (d1 && d2) {
+        const date1 = new Date(d1.year, d1.month - 1, d1.day);
+        const date2 = new Date(d2.year, d2.month - 1, d2.day);
+        this.showDuree = date1.getTime() === date2.getTime(); // vrai si c'est une journée
+      } else {
+        this.showDuree = false;
+      }
+    });
+
     })
   }
 
