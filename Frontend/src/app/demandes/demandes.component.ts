@@ -27,6 +27,7 @@ export class DemandesComponent implements OnInit {
   typeAbsences: TypeAbsence[] = [];
   titreForme: string = "";
   showDuree = false;
+  showJustif = false;
 
 
   ngOnInit(): void {
@@ -68,7 +69,7 @@ export class DemandesComponent implements OnInit {
         this.titreForme = "Nouvelle Demande d'Absence"; 
       }
 
-      // Verifie si on selectionne une journée
+      // Verifie si on selectionne une journée pour rendre visible ou non le champ de la durée
     this.formAbs.valueChanges.subscribe(() => {
       const d1 = this.formAbs.get('dateBegin')?.value;
       const d2 = this.formAbs.get('dateEnd')?.value;
@@ -83,6 +84,11 @@ export class DemandesComponent implements OnInit {
     });
 
     })
+
+    this.formAbs.get('type')?.valueChanges.subscribe((val) => {
+      // Verifie si la valeur du type est "Maladie" pour afficher le champ pour rentrer le justificatif
+      this.showJustif = parseInt(val, 10) === 10;
+    });
   }
 
   envoyerEmail(demande: any) {
