@@ -40,7 +40,8 @@ export class DemandesComponent implements OnInit {
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
       dateEnd: new FormControl('', Validators.required),
-      comment: new FormControl('')
+      comment: new FormControl(''),
+      typeJournee: new FormControl('', Validators.required)
     });
     this.demandesService.GetTypeAbsByUser().subscribe(types => {
       this.typeAbsences = types;
@@ -63,7 +64,8 @@ export class DemandesComponent implements OnInit {
             this.formAbs.controls['dateBegin'].setValue(formatNgbDate(DemandeById.DEM_DteDebut));
             this.formAbs.controls['dateEnd'].setValue(formatNgbDate(DemandeById.DEM_DteFin));
             this.formAbs.controls['comment'].setValue(DemandeById.DEM_Comm);
-          }
+            this.formAbs.controls['typeJournee'].setValue(DemandeById.DEM_TypeJournee ?? 'Journee');
+            }
         })
       } else {
         this.titreForme = "Nouvelle Demande d'Absence"; 
@@ -81,6 +83,9 @@ export class DemandesComponent implements OnInit {
       } else {
         this.showDuree = false;
       }
+      if (!this.showDuree) {
+    this.formAbs.get('typeJournee')?.setValue('Journee');
+  }
     });
 
     })
@@ -141,7 +146,7 @@ export class DemandesComponent implements OnInit {
     this.addDemande.DEM_Comm= form.value.comment;
     this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
     this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
-    this.addDemande.TypeJournee = (document.getElementById("typeJournee") as HTMLSelectElement).value;
+    this.addDemande.DEM_TypeJournee = form.value.typeJournee;
     
     // Vérifier si c'est une modification ou un ajout
     if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
