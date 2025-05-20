@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { DemandesService } from '../shared/demandes.service';
-import { JoursFeriesService } from '../shared/jours-feries.service';
+import { JoursFeriesService } from '../shared/services/jours-feries.service';
+import { DemandesService } from '../shared/services/demandes.service';
 
 @Component({
   selector: 'app-calendrier-commun',

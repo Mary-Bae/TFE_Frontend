@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
-import { ThemeService } from '../shared/theme.service';
+import { ThemeService } from '../shared/services/theme.service';
 
 @Component({
   selector: 'app-navbar',

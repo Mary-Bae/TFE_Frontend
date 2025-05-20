@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DemandesService } from '../shared/demandes.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { DemandesService } from '../shared/services/demandes.service';
 
 @Component({
   selector: 'app-histo-demandes',

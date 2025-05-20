@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { JoursFeries } from './jours-feries.model';
+import { JoursFeries } from '../models/jours-feries.model';
 
 
 @Injectable({
