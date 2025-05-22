@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AddDemandes, DemandeById, Demandes } from '../shared/demandes.model';
-import { TypeAbsence } from '../shared/type-absence.model';
-import { DemandesService } from '../shared/demandes.service';
+import { AddDemandes, DemandeById, Demandes } from '../shared/models/demandes.model';
+import { TypeAbsence } from '../shared/models/type-absence.model';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import emailjs from '@emailjs/browser';
 import { AuthService } from '@auth0/auth0-angular';
-import { EmployeService } from '../shared/employe.service';
+import { DemandesService } from '../shared/services/demandes.service';
+import { EmployeService } from '../shared/services/employe.service';
 
 @Component({
   selector: 'app-demandes',
@@ -40,7 +40,9 @@ export class DemandesComponent implements OnInit {
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
       dateEnd: new FormControl('', Validators.required),
-      comment: new FormControl('')
+      comment: new FormControl(''),
+      typeJournee: new FormControl('', Validators.required),
+      justificatif: new FormControl('') 
     });
     this.demandesService.GetTypeAbsByUser().subscribe(types => {
       this.typeAbsences = types;
@@ -63,7 +65,8 @@ export class DemandesComponent implements OnInit {
             this.formAbs.controls['dateBegin'].setValue(formatNgbDate(DemandeById.DEM_DteDebut));
             this.formAbs.controls['dateEnd'].setValue(formatNgbDate(DemandeById.DEM_DteFin));
             this.formAbs.controls['comment'].setValue(DemandeById.DEM_Comm);
-          }
+            this.formAbs.controls['typeJournee'].setValue(DemandeById.DEM_TypeJournee ?? 'Journee');
+            }
         })
       } else {
         this.titreForme = "Nouvelle Demande d'Absence"; 
@@ -81,14 +84,17 @@ export class DemandesComponent implements OnInit {
       } else {
         this.showDuree = false;
       }
+      if (!this.showDuree) {
+    this.formAbs.get('typeJournee')?.setValue('Journee');
+  }
     });
 
     })
 
-    this.formAbs.get('type')?.valueChanges.subscribe((val) => {
-      // Verifie si la valeur du type est "Maladie" pour afficher le champ pour rentrer le justificatif
-      this.showJustif = parseInt(val, 10) === 10;
-    });
+  this.formAbs.get('type')?.valueChanges.subscribe((val) => {
+  const id = parseInt(val, 10);
+  this.showJustif = id === 7 || id === 8 || id === 10;
+});
   }
 
   envoyerEmail(demande: any) {
@@ -114,6 +120,15 @@ export class DemandesComponent implements OnInit {
     }
 
   Save(form: FormGroup){
+    if (this.showJustif && !form.value.justificatif) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'Justificatif manquant',
+    text: 'Vous devez ajouter un justificatif pour ce type de demande.',
+    confirmButtonText: 'OK',
+  });
+  return;
+}
     //Pour convertir les dates récupérées du NgbDateStruct en format date
     const formatDate = (date: NgbDateStruct): Date => {
       return new Date(date.year, date.month - 1, date.day, 12); 
@@ -141,7 +156,7 @@ export class DemandesComponent implements OnInit {
     this.addDemande.DEM_Comm= form.value.comment;
     this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
     this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
-    this.addDemande.TypeJournee = (document.getElementById("typeJournee") as HTMLSelectElement).value;
+    this.addDemande.DEM_TypeJournee = form.value.typeJournee;
     
     // Vérifier si c'est une modification ou un ajout
     if (this.DemandeById && this.DemandeById.DEM_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update

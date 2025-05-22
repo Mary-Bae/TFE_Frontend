@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Compteur } from '../shared/compteur.model';
+import { Compteur } from '../models/compteur.model';
 
 
 @Injectable({

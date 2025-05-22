@@ -22,6 +22,7 @@ export class DemandeById{
     DEM_EMP_id:number;
     DEM_Justificatif?: string;
     DEM_DureeHeures: number;
+    DEM_TypeJournee: string;
 }
 export class AddDemandes{
     DEM_DteDebut: Date;
@@ -30,5 +31,5 @@ export class AddDemandes{
     DEM_TYPE_id: number; 
     DEM_Justificatif?: string;
     DEM_DureeHeures: number;
-    TypeJournee: string;
+    DEM_TypeJournee: string;
 }

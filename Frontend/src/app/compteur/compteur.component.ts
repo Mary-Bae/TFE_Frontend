@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CompteurService } from '../shared/compteur.service';
+import { CompteurService } from '../shared/services/compteur.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
 

@@ -4,11 +4,11 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
-import { EmployeService } from '../shared/employe.service';
-import { RoleService } from '../shared/role.service';
-import { Employe } from '../shared/employe.model';
-import { EmployeNoms } from '../shared/employe.model';
-import { Roles } from '../shared/role.model';
+import { EmployeService } from '../shared/services/employe.service';
+import { RoleService } from '../shared/services/role.service';
+import { Employe } from '../shared/models/employe.model';
+import { EmployeNoms } from '../shared/models/employe.model';
+import { Roles } from '../shared/models/role.model';
 
 @Component({
   selector: 'app-employes-management',

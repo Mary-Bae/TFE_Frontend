@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DemandesService } from '../shared/demandes.service';
 import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import emailjs from '@emailjs/browser';
-import { EmployeService } from '../shared/employe.service';
+import { EmployeService } from '../shared/services/employe.service';
+import { DemandesService } from '../shared/services/demandes.service';
 
 @Component({
   selector: 'app-demandes-equipe',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { EmployeService } from '../shared/employe.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { EmployeService } from '../shared/services/employe.service';
 
 @Component({
   selector: 'app-employes',

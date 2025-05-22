@@ -1,9 +1,9 @@
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Demandes, AddDemandes,DemandeById } from '../shared/demandes.model';
-import { TypeAbsence } from './type-absence.model';
 import { Observable } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
+import { AddDemandes, DemandeById, Demandes } from '../models/demandes.model';
+import { TypeAbsence } from '../models/type-absence.model';
 
 @Injectable({
   providedIn: 'root'

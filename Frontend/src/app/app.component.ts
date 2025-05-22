@@ -4,7 +4,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { NavbarComponent } from "./navbar/navbar.component";
-import { ThemeService } from './shared/theme.service';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
   selector: 'app-root',

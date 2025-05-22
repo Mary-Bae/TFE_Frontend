@@ -29,8 +29,8 @@
                         <td>
                             <div class="d-flex justify-content-start gap-2">
 
-                                <button class="btn btn-outline-primary" type="button"(click)="edit(demande.DEM_id)"[disabled]="demande.STAT_Libelle === 'Refusé'">Modifier</button>
-                                <button class="btn btn-outline-danger" type="button"(click)="delete(demande.DEM_id)"[disabled]="demande.STAT_Libelle === 'Refusé'">Supprimer</button>
+                                <button class="btn btn-outline-primary" type="button"(click)="edit(demande.DEM_id)"[disabled]="demande.STAT_Libelle !== 'En attente'">Modifier</button>
+                                <button class="btn btn-outline-danger" type="button"(click)="delete(demande.DEM_id)"[disabled]="demande.STAT_Libelle !== 'En attente'">Supprimer</button>
                             </div>
                        </td>
                     </tr>
