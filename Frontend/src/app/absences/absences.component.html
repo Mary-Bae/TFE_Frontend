@@ -1,0 +1,76 @@
+
+
+<div class="row">
+  <div class="text-center mb-4">
+        <h3>Types d'absence pour {{ prenom }} {{ nom }}</h3>
+    </div>
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="card p-4 mb-4 shadow-sm">
+      <h5>Rajout absence pour {{annee}}</h5>
+        <form [formGroup]="formAbs" (ngSubmit)="Save(formAbs)">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-5">
+                    <div class="form-group">
+                <label for="exampleFormControlSelect1">Absence</label>
+                <select formControlName="absence" class="form-control" id="exampleFormControlSelect1">
+                    <option *ngFor="let type of typesAbsence" [value]="type.TYPE_id">
+                      {{ type.TYPE_Libelle }}
+                    </option>
+                </select>
+              </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="exampleFormControlTextarea1">
+                        Nombre de jours par
+                        <span [ngStyle]="{ color: choix === 'semaine' ? 'green' : 'blue' }">
+                          {{ choix }}
+                        </span>
+                      </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="jours"></textarea>
+              </div>
+                </div>
+        <div class="col-md-3">
+                 <button class="btn btn-success mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
+        </div>
+            </div>            
+          </form>
+    </div>        
+         <div class="mt-5"></div>
+         <div class="card p-4 shadow-sm mt-5">
+          <h5>Absences déjà disponibles pour {{annee}}</h5>
+        <table class="table table-custom table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th hidden scope="col">id</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Jours/an</th>
+                    <th scope="col">Jours/semaine</th>
+                    <th scope="col">Nombre d'heures</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let absence of absenceByEmploye">
+                    <td hidden>{{ absence.TAEM_id }}</td>
+                    <td>{{ absence.TYPE_Libelle }}</td>
+                    <td>{{ absence.TAEM_NbrJoursAn }}</td>
+                    <td>{{ absence.TAEM_NbrJoursSemaine }}</td>
+                    <td>{{ absence.TAEM_Heures }}</td>
+                    <td>
+                        <div class="d-flex justify-content-start gap-2">
+                          <button class="btn btn-outline-danger" type="button"(click)="delete(absence.TAEM_id)">Supprimer</button>
+                        </div>
+                    </td>
+                </tr>    
+            </tbody>
+            
+        </table>
+         </div>
+          
+  </div>
+    <div class="col-md-3"></div>
+</div>
+
+

@@ -21,7 +21,6 @@ export class EmployeService {
     return this.http.get<Employe>("https://localhost:7290/Employe/GetUsers");
   }
   CreerEmploye(employe: Employe){
-      console.log('Envoi de la requête POST au backend :', employe);
   return this.http.post("https://localhost:7290/Employe/CreateUser", employe)
 }
 

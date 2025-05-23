@@ -30,6 +30,9 @@ export class EmployesComponent implements OnInit {
 edit(id:Int32Array){
 this.router.navigate(['employes-management', id])
   }
+  absences(id:Int32Array){
+this.router.navigate(['absences', id])
+  }
 
   delete(id: number) {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
