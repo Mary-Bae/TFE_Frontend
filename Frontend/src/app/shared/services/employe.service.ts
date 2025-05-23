@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employe, EmployeNoms } from '../models/employe.model';
+import { Absence, TypeAbsence } from '../models/type-absence.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,6 @@ export class EmployeService {
     return this.http.get<Employe>("https://localhost:7290/Employe/GetUsers");
   }
   CreerEmploye(employe: Employe){
-      console.log('Envoi de la requête POST au backend :', employe);
   return this.http.post("https://localhost:7290/Employe/CreateUser", employe)
 }
 
@@ -37,5 +37,12 @@ export class EmployeService {
       DelEmploye(id: number)
       { 
         return this.http.delete<Employe>("https://localhost:7290/Employe/DelEmploye?id=" + id);
+      }
+      GetAbsences(): Observable<Absence[]>
+      { 
+        return this.http.get<Array<Absence>>("https://localhost:7290/Employe/GetAbsences");
+      }
+        GetAbsencesByEmploye(id: number): Observable<TypeAbsence[]>{
+        return this.http.get<TypeAbsence[]>("https://localhost:7290/Employe/GetAbsencesByEmployeId?employeId=" + id);
       }
 }
