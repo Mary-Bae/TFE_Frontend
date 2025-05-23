@@ -5,6 +5,7 @@ export class TypeAbsence{
     TAEM_NbrJoursAn: number;
     TAEM_NbrJoursSemaine: number;    
     TAEM_Heures: number;
+    TAEM_AnneeEffective: number;
 }
 export class Absence{
     TYPE_id: number;

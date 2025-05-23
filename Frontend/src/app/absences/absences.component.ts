@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
 import { EmployeService } from '../shared/services/employe.service';
+import { AbsencesService } from '../shared/services/absences.service';
 import { Employe } from '../shared/models/employe.model';
 import { Absence, TypeAbsence } from '../shared/models/type-absence.model';
 
@@ -23,18 +24,24 @@ formAbs: FormGroup;
   nom: string = '';
   prenom: string = '';
   annee: number = new Date().getFullYear();
+  choix: string = 'année';
 
 
- constructor(private employeService: EmployeService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
+ constructor(private employeService: EmployeService,private absencesService: AbsencesService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
   this.formAbs = new FormGroup({
-  nom: new FormControl('', Validators.required),
-  prenom: new FormControl('', Validators.required),
-  pren2: new FormControl(''),
-  absence: new FormControl('', Validators.required)
-});
-    this.employeService.GetAbsences().subscribe(abs => {
+  absence: new FormControl('', Validators.required),
+  jours: new FormControl(0,Validators.pattern(/^\d+([,.]\d{1,2})?$/))
+  });
+
+    this.absencesService.GetAbsences().subscribe(abs => {
       this.typesAbsence = abs;
     });
+
+    this.formAbs.get('absence')?.valueChanges.subscribe((val: number) => {
+    const typeId = +val;
+    this.choix = typeId === 2 ? 'semaine' : 'année';
+    
+  });
 
 
     this.route.params.subscribe(params=>{
@@ -48,7 +55,7 @@ formAbs: FormGroup;
           }
         })
 
-        this.employeService.GetAbsencesByEmploye(id).subscribe(absenceList => {
+        this.absencesService.GetAbsencesByEmploye(id).subscribe(absenceList => {
         this.absenceByEmploye = absenceList;
         });
       }
@@ -56,53 +63,62 @@ formAbs: FormGroup;
   }
 
   Save(form: FormGroup){
-    this.employe.EMP_Nom = form.value.nom;
-    this.employe.EMP_Prenom = form.value.prenom;
-    
-    // Vérifier si c'est une modification ou un ajout
-    if (this.employe && this.employe.EMP_id) { // S'il y a DEM_id (récupéré dans GetDemandeById), on fait un update
-      this.employeService.updateEmploye(this.employe.EMP_id, this.employe)
-      .subscribe({
-        next: () => {
+    const typeId = +form.value.absence;
+    const jours = +form.value.jours;
+
+    const JoursRequis = [1,2, 3, 4, 5, 8]; //Pour obliger l'admin d'enregistrer un nombre de jours pour certaines absences
+
+    if (JoursRequis.includes(typeId) && (!jours || jours === 0 )) {
+    Swal.fire({ icon: 'warning', title: 'Veuillez indiquer un nombre de jours.' });
+    return;
+  }
+
+      const absence = new TypeAbsence();
+      absence.TAEM_TYPE_id = typeId;
+      absence.TAEM_AnneeEffective = this.annee;
+        
+      // Vérifie si une absence du même type existe déjà
+        const existe = this.absenceByEmploye.find(a => a.TAEM_TYPE_id === typeId);
+
+      const operation = existe //Si elle existe on fait l'update, sinon on l'ajoute
+      ? this.absencesService.UpdAbsence(absence, this.employe.EMP_id, jours)
+      : this.absencesService.AddAbsence(absence, this.employe.EMP_id, jours);
+
+    operation.subscribe({
+    next: () => {
+      Swal.fire({ icon: 'success', title: existe ? 'Absence modifiée avec succès !' : 'Absence ajoutée avec succès !' });
+      this.formAbs.reset();
+      this.absencesService.GetAbsencesByEmploye(this.employe.EMP_id).subscribe(data => {
+        this.absenceByEmploye = data;
+      });
+    },
+    error: () => {
+      Swal.fire({ icon: 'error', title: 'Erreur détectée.' });
+    }
+  });
+}
+
+delete(id: number) {
+    if (confirm('Voulez-vous vraiment annuler cette absence ?')) {
+      this.absencesService.DeleteAbsence(id).subscribe({
+        next: (response) => {
           Swal.fire({
             icon: 'success',
-            title:'Employé mise à jour avec succès!',
+            title: 'Absence supprimée avec succès !',
             confirmButtonText: 'OK',
-          }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je change de route
-            
-            this.router.navigate(['/utilisateurs']);
           });
-        }, 
+          this.absencesService.GetAbsencesByEmploye(this.employe.EMP_id).subscribe(data => {
+        this.absenceByEmploye = data;
+      });
+        },
         error: (err) => {
           Swal.fire({
             icon: 'error',
-            title:'Erreur ! ',
-            //text: err.error?.toString() || err.message,
+            title: 'Erreur dans la suppression de la demande !' ,
+            text: err.error?.toString() || err.message,
             confirmButtonText: 'OK',
-          })
+          });
         }
-        });
-  } else { // Sinon, on fait un ajout
-      this.employeService.CreerEmploye(this.employe)
-      .subscribe({
-        next: () => {
-        Swal.fire({
-          icon: 'success',
-          title:'Employe rajouté avec succès!',
-          confirmButtonText: 'OK',
-        }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je vide la form pour entrer une autre demande
-          this.formAbs.reset();
-        });
-      }, 
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur lors de l\'ajout de l\'employé !',
-          confirmButtonText: 'OK',
-        })
-      }
       });
-  }
-}
 
-}
+}}}

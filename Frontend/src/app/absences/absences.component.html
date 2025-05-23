@@ -22,12 +22,17 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                <label for="exampleFormControlTextarea1">Nombre de jours par an</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName=""></textarea>
+                      <label for="exampleFormControlTextarea1">
+                        Nombre de jours par
+                        <span [ngStyle]="{ color: choix === 'semaine' ? 'green' : 'blue' }">
+                          {{ choix }}
+                        </span>
+                      </label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="jours"></textarea>
               </div>
                 </div>
         <div class="col-md-3">
-                 <button class="btn btn-danger mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
+                 <button class="btn btn-success mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
         </div>
             </div>            
           </form>
@@ -43,6 +48,7 @@
                     <th scope="col">Jours/an</th>
                     <th scope="col">Jours/semaine</th>
                     <th scope="col">Nombre d'heures</th>
+                    <th scope="col">Supprimer</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,8 +58,14 @@
                     <td>{{ absence.TAEM_NbrJoursAn }}</td>
                     <td>{{ absence.TAEM_NbrJoursSemaine }}</td>
                     <td>{{ absence.TAEM_Heures }}</td>
+                    <td>
+                        <div class="d-flex justify-content-start gap-2">
+                          <button class="btn btn-outline-danger" type="button"(click)="delete(absence.TAEM_id)">Supprimer</button>
+                        </div>
+                    </td>
                 </tr>    
             </tbody>
+            
         </table>
          </div>
           
