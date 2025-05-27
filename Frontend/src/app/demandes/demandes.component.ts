@@ -177,7 +177,7 @@ export class DemandesComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title:'Erreur lors de la mise à jour de la demande ! ',
-            //text: err.error?.toString() || err.message,
+            text: err.error?.toString() || err.message,
             confirmButtonText: 'OK',
           })
         }
@@ -199,7 +199,7 @@ export class DemandesComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Erreur lors de l\'ajout de la demande !',
-          //text: err.error?.toString() || err.message,
+          text: err.error?.toString() || err.message,
           confirmButtonText: 'OK',
         })
       }

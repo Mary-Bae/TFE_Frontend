@@ -92,9 +92,14 @@ formAbs: FormGroup;
         this.absenceByEmploye = data;
       });
     },
-    error: () => {
-      Swal.fire({ icon: 'error', title: 'Erreur détectée.' });
-    }
+    error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur détectée !' ,
+            text: err.error?.toString() || err.message,
+            confirmButtonText: 'OK',
+          });
+        }
   });
 }
 
