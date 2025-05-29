@@ -2,11 +2,13 @@
 .color-scheme-light {
     --background-color: ##ffffffc7;
     --text-color: #000000;
+    --border-color:rgb(171, 171, 171);
   }
   
   .color-scheme-dark {
     --background-color: #121212;
     --text-color: #ffffffc7;
+    --border-color:rgb(171, 171, 171);
   }
   
   body {
@@ -17,7 +19,7 @@
 .table-custom, .table-custom thead, .table-custom tbody, .table-custom th, .table-custom td {
   background-color: var(--background-color);
   color: var(--text-color);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-color);
 }
 /* Structure principale pour coller le footer */
 html, body {
