@@ -3,7 +3,7 @@
 <div class="container mt-4">
     <h3>Historique de toutes vos demandes</h3>
     <br><br>
-        <table class="table table-custom table-striped">
+        <table class="table table-custom">
             <thead class="thead-dark">
                 <tr>
                     <th hidden scope="col">id</th>
@@ -17,8 +17,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let demande of demandes; let i = index">
-
+                <tr *ngFor="let demande of demandes; let i = index"
+                [ngClass]="{
+                            'ligne-acceptee': demande.STAT_Libelle === 'Accepté',
+                            'ligne-refusee': demande.STAT_Libelle === 'Refusé'
+                    }">
                         <td hidden>{{demande.DEM_id}}</td>
                         <td>{{ demande.DEM_DteDemande | date:'dd/MM/yyyy'}}</td>
                         <td>{{ demande.TYPE_Libelle }}</td>

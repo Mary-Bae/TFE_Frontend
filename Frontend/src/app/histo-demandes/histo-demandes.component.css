@@ -1,1 +1,6 @@
-
+.ligne-acceptee {
+  background-color: #d4edda;
+}
+.ligne-refusee {
+  background-color: #f8d7da;
+}

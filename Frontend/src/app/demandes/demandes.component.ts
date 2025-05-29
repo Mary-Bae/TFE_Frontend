@@ -34,7 +34,6 @@ export class DemandesComponent implements OnInit {
     emailjs.init("oWMdcekgw1oCXmcBu");
   }
    
-
   constructor(private demandesService: DemandesService, private employeService: EmployeService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
     this.formAbs= new FormGroup({
       type: new FormControl('', Validators.required),

@@ -48,7 +48,7 @@ this.router.navigate(['demandes', id])
           Swal.fire({
             icon: 'error',
             title: 'Erreur dans la suppression de la demande !' ,
-            //text: err.error?.toString() || err.message,
+            text: err.error?.toString() || err.message,
             confirmButtonText: 'OK',
           });
         }
