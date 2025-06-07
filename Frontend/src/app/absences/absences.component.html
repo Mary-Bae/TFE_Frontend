@@ -13,11 +13,14 @@
               <div class="col-md-5">
                     <div class="form-group">
                 <label for="exampleFormControlSelect1">Absence</label>
-                <select formControlName="absence" class="form-control" id="exampleFormControlSelect1">
+                <select formControlName="absence" class="form-control" id="typeAbs" (change)="onTypeAbsenceChange()">
                     <option *ngFor="let type of typesAbsence" [value]="type.TYPE_id">
                       {{ type.TYPE_Libelle }}
                     </option>
                 </select>
+              </div>
+              <div *ngIf="suggestionJours !== null" class="alert alert-info mt-2">
+                    Suggestion : {{ suggestionJours }} jours/an
               </div>
                 </div>
                 <div class="col-md-4">
@@ -28,7 +31,7 @@
                           {{ choix }}
                         </span>
                       </label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="jours"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" formControlName="jours" [ngClass]="{ 'text-danger': suggereAuto }"></textarea>
               </div>
                 </div>
         <div class="col-md-3">
