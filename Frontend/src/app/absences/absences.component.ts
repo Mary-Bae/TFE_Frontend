@@ -25,12 +25,14 @@ formAbs: FormGroup;
   prenom: string = '';
   annee: number = new Date().getFullYear();
   choix: string = 'année';
+  suggestionJours: number | null = null;
+  suggereAuto = false;
 
 
  constructor(private employeService: EmployeService,private absencesService: AbsencesService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
   this.formAbs = new FormGroup({
   absence: new FormControl('', Validators.required),
-  jours: new FormControl(0,Validators.pattern(/^\d+([,.]\d{1,2})?$/))
+  jours: new FormControl('',Validators.pattern(/^\d+([,.]\d{1,2})?$/))
   });
 
     this.absencesService.GetAbsences().subscribe(abs => {
@@ -42,7 +44,6 @@ formAbs: FormGroup;
     this.choix = typeId === 2 ? 'semaine' : 'année';
     
   });
-
 
     this.route.params.subscribe(params=>{
       let id= params['id']
@@ -61,6 +62,27 @@ formAbs: FormGroup;
       }
     })
   }
+
+onTypeAbsenceChange() {
+  const empId = this.employe.EMP_id;
+  const typeAbs = +this.formAbs.get('absence')?.value;
+
+  this.absencesService.GetJoursCongesParcontrat(empId, typeAbs).subscribe({
+    next: (res) => {
+      if (res?.JoursSuggérés) {
+        this.formAbs.get('jours')?.setValue(res.JoursSuggérés);
+        this.suggereAuto = true;
+      } else {
+        this.formAbs.get('jours')?.reset();
+        this.suggereAuto = false;
+      }
+    },
+    error: () => {
+      this.formAbs.get('jours')?.reset();
+      this.suggereAuto = false;
+    }
+  });
+}
 
   Save(form: FormGroup){
     const typeId = +form.value.absence;

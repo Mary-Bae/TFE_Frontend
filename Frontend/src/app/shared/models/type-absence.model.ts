@@ -11,3 +11,7 @@ export class Absence{
     TYPE_id: number;
     TYPE_Libelle: String;
 }
+
+export class JoursParContrat {
+  JoursSuggérés: number;
+}

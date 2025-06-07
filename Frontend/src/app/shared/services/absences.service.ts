@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Absence, TypeAbsence } from '../models/type-absence.model';
+import { Absence, TypeAbsence, JoursParContrat } from '../models/type-absence.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +28,9 @@ export class AbsencesService {
         { 
           return this.http.delete<TypeAbsence>("https://localhost:7290/Absences/DelAbsence?id=" + id);
         }
+
+      GetJoursCongesParcontrat(empId: number, typeAbsId: number): Observable<JoursParContrat> {
+    return this.http.get<JoursParContrat>(`https://localhost:7290/Absences/GetJoursCongesSuggérés?employeId=${empId}&typeAbsenceId=${typeAbsId}`
+  );
+}
 }
