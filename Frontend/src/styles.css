@@ -36,7 +36,7 @@ html, body {
 
 .content {
   flex: 1; /* prend tout l'espace dispo */
-  padding: 20px; /* optionnel */
+  padding: 20px;
 }
 
 .footer {

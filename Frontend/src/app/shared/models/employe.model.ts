@@ -10,6 +10,14 @@ export class Employe{
     EMP_ROL_id: number;
     EMP_Manager_id: number;
     EMP_Manager: string;
+
+    CON_id: number;
+    CON_Type: string;
+    CON_JoursSemaine: number;
+    CON_Description: string;
+    CON_DteDebut: Date;
+    CON_DteFin: Date;
+    CON_EMP_id: number;
 }
 export class EmployeNoms{
     EMP_id: number;
