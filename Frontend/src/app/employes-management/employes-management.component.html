@@ -1,11 +1,14 @@
 
-<div class="row">
-    <div class="col"></div>
-    <div class="col">
-        <div class="text-center mb-4">
+
+      <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-6 col-xl-5">
+
+        <div class=" mt-5 text-center mb-4">
             <h3>{{ titreForme }}</h3>
         </div>
         <form [formGroup]="formAbs" (ngSubmit)="Save(formAbs)">
+          <h4>Description de l'employé</h4>
+          <div class="card p-4 mb-4 shadow-sm">
             <div class="row">
                 <div class="form-group d-flex gap-2">
                   <div class="flex-fill">
@@ -17,8 +20,8 @@
                     <textarea class="form-control" id="prenom" rows="1" formControlName="prenom"></textarea>
                   </div>
                 </div>
-              </div>
-              <div class="form-group d-flex gap-2">
+            </div>
+            <div class="form-group d-flex gap-2">
                 <div class="flex-fill">
                   <label for="pren2">Prénom 2</label>
                   <textarea class="form-control" id="pren2" rows="1" formControlName="pren2"></textarea>
@@ -31,15 +34,15 @@
                     <option value="M">Masculin</option>
                   </select>
                 </div>
-              </div>
-              <div class="form-group">
+            </div>
+            <div class="form-group">
                 <label for="exampleFormControlSelect1">Rôle</label>
                 <select formControlName="role" class="form-control, form-select" id="exampleFormControlSelect1">
                   <option *ngFor="let role of roles" [value]="role.ROL_id">
                       {{ role.ROL_Libelle }}
                     </option>
                 </select>
-              </div>
+            </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Manager</label>
                 <select formControlName="manager" class="form-control, form-select" id="exampleFormControlSelect1">
@@ -48,9 +51,78 @@
                     </option>
                 </select>  
               </div>
-                 
-              <button class="btn btn-danger mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
+          </div>
+                    
+              <h4>Contrat actuel</h4>
+
+              <div class="card p-4 mb-4 shadow-sm">
+              <div class="form-group d-flex gap-2">
+                <div class="flex-fill">
+                  <label for="typeContrat">Type de contrat</label>
+                  <select id="typeContrat" class="form-control" formControlName="typeContrat">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="Employe">Employe</option>
+                    <option value="Ouvrier">Ouvrier</option>
+                  </select>
+                </div>
+                <div class="flex-fill">
+                  <label for="joursSemaine">jours / semaine</label>
+                  <textarea class="form-control" id="joursSemaine" rows="1" formControlName="joursSemaine"></textarea>
+                </div>
+                <div class="flex-fill">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" rows="1" formControlName="description"></textarea>
+                  </div>
+              </div>
+                <div class="col-12 mt-3">
+                  <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input" id="contratSansFin" formControlName="contratSansFin">
+                  <label class="form-check-label fw-semibold" for="contratSansFin">Contrat sans date de fin</label>
+                  </div>
+            </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="dateBegin">Début de contrat :</label>
+                        <div class="input-group">
+                            <input type="date" id="dateBegin"
+                                class="form-control text-muted"
+                                placeholder="dd/mm/yyyy"
+                                formControlName="dateBegin"
+                                ngbDatepicker
+                                #dp1="ngbDatepicker">
+                            <button class="btn btn-outline-secondary bi bi-calendar3" type="button" (click)="dp1.toggle()">📅</button>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="col-md-6 mb-3" *ngIf="!formAbs.get('contratSansFin')?.value">
+    <div class="form-group">
+      <label for="dateEnd">Fin de contrat (facultatif) :</label>
+      <div class="input-group">
+        <input type="date" id="dateEnd"
+          class="form-control text-muted"
+          placeholder="dd/mm/yyyy"
+          formControlName="dateEnd"
+          ngbDatepicker
+          #dp2="ngbDatepicker">
+        <button class="btn btn-outline-secondary bi bi-calendar3" type="button" (click)="dp2.toggle()">📅</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<div class="text-center mt-3">
+<button class="btn btn-outline-secondary"
+        *ngIf="isModification"
+        type="button"(click)="preparerNouveauContrat()"[disabled]="nouveauContrat">
+  {{ nouveauContrat ? 'Contrat en cours de création' : 'Créer un Nouveau contrat' }}
+</button>
+</div>
+
+              </div>    
+              <button class="btn btn-danger btn-lg px-5 py-1 mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
           </form>
       </div>
-      <div class="col"></div>
-</div>
+  </div>
+
