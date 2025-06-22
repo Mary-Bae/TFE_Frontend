@@ -36,7 +36,7 @@ this.router.navigate(['absences', id])
 
   delete(id: number) {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-      this.employeService.DelEmploye(id).subscribe(response => {    
+      this.employeService.DelEmploye(id, this.employes).subscribe(response => {    
         console.log('User deleted successfully', response);
         Swal.fire({
                   icon: 'success',
