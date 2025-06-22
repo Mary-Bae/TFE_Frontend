@@ -33,8 +33,11 @@ export class EmployeService {
     GetEmployeById(id: number){
       return this.http.get<Employe>("https://localhost:7290/Employe/GetEmployeById?id=" + id);
     }
-      DelEmploye(id: number)
+    GetActiveUser(){
+      return this.http.get<Employe>("https://localhost:7290/Employe/ActiveUser");
+    }
+      DelEmploye(id: number, employe: Employe)
       { 
-        return this.http.delete<Employe>("https://localhost:7290/Employe/DelEmploye?id=" + id);
+        return this.http.put<Employe>("https://localhost:7290/Employe/DelEmploye?id=" + id, employe);
       }
 }

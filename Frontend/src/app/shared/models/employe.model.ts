@@ -10,6 +10,7 @@ export class Employe{
     EMP_ROL_id: number;
     EMP_Manager_id: number;
     EMP_Manager: string;
+    EMP_IsDeleted: boolean;
 
     CON_id: number;
     CON_Type: string;
