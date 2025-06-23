@@ -1,8 +1,8 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="mb-0">Liste d'employés</h3>
-    <button class="btn btn-outline-secondary" (click)="navigateToDesactived()" type="button" >
-      Employés désactivés
+        <h3 class="mb-0">Employés à restaurer</h3>
+        <button class="btn btn-outline-secondary" (click)="navigateToActived()" type="button" >
+      Liste d'employés actifs
     </button>
     </div>
     
@@ -17,7 +17,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Rôle</th>
                     <th scope="col">Manager</th>
-                    <th scope="col">Modifier utilisateur / Attribuer absences</th>
+                    <th scope="col">Restaurer</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,16 +32,12 @@
                         <td>{{ employe.EMP_Manager }}</td>
                         <td>
                             <div class="d-flex justify-content-start gap-2">
-                                <button class="btn btn-outline-primary" type="button"(click)="absences(employe.EMP_id)">Absences</button>
-                                <button class="btn btn-outline-warning" type="button"(click)="edit(employe.EMP_id)">Modifier</button>
-                                <button class="btn btn-outline-danger" type="button"(click)="delete(employe.EMP_id)">Désactiver</button>
+                                <button class="btn btn-outline-primary" type="button"(click)="restore(employe.EMP_id)">Restaurer</button>
                             </div>
                        </td>
                     </tr>
                 
             </tbody>
         </table>
-                
-
 </div>
 
