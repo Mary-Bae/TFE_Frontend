@@ -20,9 +20,9 @@ export class EmployesComponent implements OnInit {
     
   }
   ngOnInit(): void {
-    this.loadDemandes(); 
+    this.loadEmployes(); 
   }
-  loadDemandes() {
+  loadEmployes() {
     this.employeService.GetUsers().subscribe(x=>{
       this.employes=x
     })
@@ -37,13 +37,12 @@ this.router.navigate(['absences', id])
   delete(id: number) {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
       this.employeService.DelEmploye(id, this.employes).subscribe(response => {    
-        console.log('User deleted successfully', response);
         Swal.fire({
                   icon: 'success',
-                  title: 'Employé supprimé avec succès !',
+                  title: 'Employé désactivé avec succès !',
                   confirmButtonText: 'OK',
               });
-        this.loadDemandes();
+        this.loadEmployes();
       },
       error => {
         console.error("Failed to delete user:", error);
@@ -51,4 +50,10 @@ this.router.navigate(['absences', id])
     );
       }     
    }
+
+     navigateToDesactived(){
+      this.router.navigate(['/employes-desactives']);
+
+  }
+
   }

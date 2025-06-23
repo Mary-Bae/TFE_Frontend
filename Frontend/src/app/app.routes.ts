@@ -10,6 +10,7 @@ import { CalendrierCommunComponent } from './calendrier-commun/calendrier-commun
 import { EmployesManagementComponent } from './employes-management/employes-management.component';
 import { AbsencesComponent } from './absences/absences.component';
 import {EmployesComponent} from './employes/employes.component';
+import { EmployesDesactivesComponent } from './employes-desactives/employes-desactives.component';
 
 export const routes: Routes = [
     { path: '', component:HomeComponent },
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path : 'employes', canActivate : [AuthGuard], component : EmployesComponent},
     {path : 'employes-management', canActivate : [AuthGuard], component : EmployesManagementComponent},
     {path : 'employes-management/:id', canActivate : [AuthGuard], component : EmployesManagementComponent},
-    {path : 'absences/:id', canActivate : [AuthGuard], component : AbsencesComponent}
+    {path : 'absences/:id', canActivate : [AuthGuard], component : AbsencesComponent},
+    {path : 'employes-desactives', canActivate : [AuthGuard], component : EmployesDesactivesComponent}
 ];

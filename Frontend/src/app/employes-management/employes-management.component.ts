@@ -212,7 +212,15 @@ if (!this.isModification || (this.isModification && this.nouveauContrat)) {
           confirmButtonText: 'OK',
         }).then(() => {  // Une fois que l'utilisateur a cliqué sur OK, je vide la form pour entrer une autre demande
           this.formAbs.reset();
-        });
+        // Remettre la date du jour dans dateBegin
+        const today = new Date();
+        const todayStruct: NgbDateStruct = {
+          year: today.getFullYear(),
+          month: today.getMonth() + 1,
+          day: today.getDate()
+        };
+  this.formAbs.controls['dateBegin'].setValue(todayStruct);
+});
       }, 
       error: (err) => {
         Swal.fire({
