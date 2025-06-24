@@ -26,6 +26,7 @@ export class EmployesManagementComponent {
   managers:EmployeNoms[] = [];
   isModification: boolean = false;
    nouveauContrat: boolean = false;
+   emailAutoGenere = false;
 
  constructor(private employeService: EmployeService, private roleService: RoleService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
     this.formAbs= new FormGroup({
@@ -33,6 +34,7 @@ export class EmployesManagementComponent {
       prenom: new FormControl('', Validators.required),
       pren2: new FormControl(''),
       sexe: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
       manager: new FormControl(null),
       role: new FormControl('', Validators.required),
       typeContrat: new FormControl('', Validators.required),
@@ -99,21 +101,37 @@ export class EmployesManagementComponent {
   }
 
   private initForm(): FormGroup {
-  return new FormGroup({
+  const form = new FormGroup({
     nom: new FormControl('', Validators.required),
     prenom: new FormControl('', Validators.required),
     pren2: new FormControl(''),
     sexe: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     manager: new FormControl(null),
     role: new FormControl('', Validators.required),
     typeContrat: new FormControl({ value: '', disabled: this.isModification }, Validators.required),
     joursSemaine: new FormControl({ value: '', disabled: this.isModification }, [Validators.required, Validators.pattern('^[1-5]$')]),
     description: new FormControl({ value: '', disabled: this.isModification }),
-    dateBegin: new FormControl({ value: '', disabled: true }), // toujours désactivé
+    dateBegin: new FormControl({ value: '', disabled: true }),
     dateEnd: new FormControl(null),
     contratSansFin: new FormControl(false)
   });
+  form.get('nom')?.valueChanges.subscribe(() => this.genererEmail(form));
+  form.get('prenom')?.valueChanges.subscribe(() => this.genererEmail(form));
+  return form;
 }
+
+genererEmail(form: FormGroup) {
+  const nom = form.get('nom')?.value?.toLowerCase()?.trim();
+  const prenom = form.get('prenom')?.value?.toLowerCase()?.trim();
+
+  if (nom && prenom) {
+    const email = `${nom}.${prenom}@gmail.com`;
+    form.controls['email'].setValue(email);
+      this.emailAutoGenere = true;
+  }
+}
+
 preparerNouveauContrat() {
   const aujourdHui = new Date();
   const hier = new Date();
@@ -160,6 +178,7 @@ preparerNouveauContrat() {
     this.employe.EMP_Prenom = form.value.prenom;
     this.employe.EMP_Pren2 = form.value.pren2;
     this.employe.EMP_Sexe = form.value.sexe;
+    this.employe.EMP_Email = form.value.email;
     this.employe.EMP_ROL_id = form.value.role;
     this.employe.EMP_Manager_id = form.value.manager;
 
@@ -197,7 +216,7 @@ if (!this.isModification || (this.isModification && this.nouveauContrat)) {
           Swal.fire({
             icon: 'error',
             title:'Erreur ! ',
-            //text: err.error?.toString() || err.message,
+            text: err.error?.toString() || err.message,
             confirmButtonText: 'OK',
           })
         }
@@ -226,6 +245,7 @@ if (!this.isModification || (this.isModification && this.nouveauContrat)) {
         Swal.fire({
           icon: 'error',
           title: 'Erreur lors de l\'ajout de l\'employé !',
+           text: err.error?.toString() || err.message,
           confirmButtonText: 'OK',
         })
       }

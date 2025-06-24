@@ -1,11 +1,10 @@
 
 
-<div class="row">
-    <div class="col"></div>
-    <div class="col">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-6 col-xl-5">
         <div class="mt-5 d-flex justify-content-between align-items-center mb-4">
         <h3 class="mb-0">{{ titreForme }}</h3>
-        <button class="btn btn-outline-secondary" (click)="navigateToCompteur()" type="button">Aperçu des compteurs</button>
+        <button class="btn btn-outline-secondary px-3 py-1 mt-2" (click)="navigateToCompteur()" type="button">Aperçu des compteurs</button>
 
         </div>
         <form [formGroup]="formAbs" (ngSubmit)="Save(formAbs)">
@@ -32,6 +31,7 @@
                                 #dp1="ngbDatepicker">
                             <button class="btn btn-outline-secondary bi bi-calendar3" type="button" (click)="dp1.toggle()">📅</button>
                         </div>
+                        <div class="text-muted small mt-1" *ngIf="infoJourFerie">{{ infoJourFerie }}</div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -66,15 +66,10 @@
                 <label for="exampleFormControlTextarea1">Justificatif</label>
                 <input type="file" class="form-control" id="justificatif">
               </div> 
-            </div>   
-
-                
-            </div>
-      
-              <button class="btn btn-danger btn-lg px-5 py-1 mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
+            </div>     
+            <div *ngIf="infoFeriesDansPlage" class="text-muted mt-2" style="font-size: 0.9em;">{{ infoFeriesDansPlage }}</div>            
+            </div>    
+              <button class="btn btn-danger btn-lg px-5 py-1 mt-3" type="submit" [disabled]="formAbs.invalid || estJourDebutFerie">Valider</button>
           </form>
       </div>
-    <div class="col">
-        
-    </div>
 </div>

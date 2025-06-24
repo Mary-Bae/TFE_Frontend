@@ -147,5 +147,4 @@ delete(id: number) {
           });
         }
       });
-
 }}}

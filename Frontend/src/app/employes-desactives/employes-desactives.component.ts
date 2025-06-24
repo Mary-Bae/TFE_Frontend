@@ -29,20 +29,26 @@ constructor(private employeService: EmployeService, private router:Router){
 
   restore(id: number) {
     if (confirm('Voulez-vous vraiment restaurer cet utilisateur ?')) {
-      this.employeService.RestoreEmploye(id, this.employes).subscribe(response => {    
+      this.employeService.RestoreEmploye(id, this.employes).subscribe({
+        next: (response) => {
         Swal.fire({
-                  icon: 'success',
-                  title: 'Employé restauré avec succès !',
-                  confirmButtonText: 'OK',
-              });
+          icon: 'success',
+          title: 'Employé restauré avec succès !',
+          confirmButtonText: 'OK',
+        });
         this.loadEmploye();
       },
-      error => {
-        console.error("Failed to restore user:", error);
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur lors de la restauration',
+          text: err.error?.toString() || err.message,
+          confirmButtonText: 'OK'
+        });
       }
-    );
-      }     
-   }
+      });    
+     }
+}
 
    navigateToActived(){
       this.router.navigate(['/employes']);

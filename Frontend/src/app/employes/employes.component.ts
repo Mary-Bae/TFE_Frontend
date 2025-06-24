@@ -36,20 +36,26 @@ this.router.navigate(['absences', id])
 
   delete(id: number) {
     if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-      this.employeService.DelEmploye(id, this.employes).subscribe(response => {    
-        Swal.fire({
-                  icon: 'success',
-                  title: 'Employé désactivé avec succès !',
-                  confirmButtonText: 'OK',
+      this.employeService.DelEmploye(id, this.employes).subscribe({
+              next: (response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Employé désactivé avec succès !',
+                confirmButtonText: 'OK',
               });
-        this.loadEmployes();
-      },
-      error => {
-        console.error("Failed to delete user:", error);
+              this.loadEmployes();
+            },
+            error: (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Employé impossible à désactiver',
+                text: err.error?.toString() || err.message,
+                confirmButtonText: 'OK'
+              });
+            }
+            });    
+           }
       }
-    );
-      }     
-   }
 
      navigateToDesactived(){
       this.router.navigate(['/employes-desactives']);

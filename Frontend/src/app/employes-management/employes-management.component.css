@@ -1,0 +1,4 @@
+.auto-filled {
+  background-color: #e6f7ff; /* bleu pâle */
+  transition: background-color 0.5s ease;
+}
