@@ -79,10 +79,11 @@ export class EmployesManagementComponent {
             this.formAbs.controls['joursSemaine'].setValue(EmployeById.CON_JoursSemaine);
             this.formAbs.controls['description'].setValue(EmployeById.CON_Description);
             this.formAbs.controls['dateBegin'].setValue(formatNgbDate(EmployeById.CON_DteDebut));
-
+            this.formAbs.controls['contratSansFin'].disable();
             if (EmployeById.CON_DteFin) { this.formAbs.controls['dateEnd'].setValue(formatNgbDate(EmployeById.CON_DteFin));
                   } else {
               this.formAbs.controls['dateEnd'].setValue(null);
+              this.formAbs.controls['contratSansFin'].setValue(true);
                   }  
           }
         })
@@ -130,10 +131,22 @@ genererEmail(form: FormGroup) {
     form.controls['email'].setValue(email);
       this.emailAutoGenere = true;
   }
+  else{
+    this.emailAutoGenere = false;
+  }
 }
 
 preparerNouveauContrat() {
   const aujourdHui = new Date();
+
+    this.employeService.VerifierContrat(this.employe.EMP_id, aujourdHui).subscribe(conflit => {
+    if (conflit) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Conflit de contrat',
+        text: 'Un contrat à durée déterminée en cours existe déjà pour cette période.',
+      });
+    } else {
   const hier = new Date();
   hier.setDate(aujourdHui.getDate() - 1);
 
@@ -162,8 +175,12 @@ preparerNouveauContrat() {
 
   // Réinitialiser la date de fin du contrat
   this.formAbs.controls['dateEnd'].reset();
+  this.formAbs.controls['contratSansFin'].enable();
   this.nouveauContrat = true;
 }
+    }
+    )}
+ 
 
   Save(form: FormGroup){
 
