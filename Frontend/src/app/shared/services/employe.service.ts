@@ -44,6 +44,8 @@ export class EmployeService {
       { 
         return this.http.put<Employe>("https://localhost:7290/Employe/RestoreEmploye?id=" + id, employe);
       }
-
-      
+      VerifierContrat(empId: number, dateDebut: Date): Observable<boolean> 
+      {
+        return this.http.get<boolean>(`https://localhost:7290/Employe/VerifierContrat?empId=${empId}&dateDebut=${dateDebut.toISOString()}`);
+      } 
 }

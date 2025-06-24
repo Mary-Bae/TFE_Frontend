@@ -10,6 +10,7 @@ import emailjs from '@emailjs/browser';
 import { AuthService } from '@auth0/auth0-angular';
 import { DemandesService } from '../shared/services/demandes.service';
 import { EmployeService } from '../shared/services/employe.service';
+import { JoursFeriesService } from '../shared/services/jours-feries.service';
 
 @Component({
   selector: 'app-demandes',
@@ -28,13 +29,20 @@ export class DemandesComponent implements OnInit {
   titreForme: string = "";
   showDuree = false;
   showJustif = false;
+  listeJoursFeries: Date[] = [];
+  infoJourFerie: string = '';
+  estJourDebutFerie: boolean = false;
+  infoFeriesDansPlage: string = '';
 
 
   ngOnInit(): void {
     emailjs.init("oWMdcekgw1oCXmcBu");
+    this.formAbs.get('dateBegin')?.valueChanges.subscribe(() => {
+  this.VerifierJourDebutSurFerie();
+  });
   }
    
-  constructor(private demandesService: DemandesService, private employeService: EmployeService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
+  constructor(private demandesService: DemandesService, private employeService: EmployeService, private joursferiesService : JoursFeriesService, private router: Router, private route: ActivatedRoute, public auth : AuthService ){
     this.formAbs= new FormGroup({
       type: new FormControl('', Validators.required),
       dateBegin: new FormControl('', Validators.required),
@@ -45,6 +53,10 @@ export class DemandesComponent implements OnInit {
     });
     this.demandesService.GetTypeAbsByUser().subscribe(types => {
       this.typeAbsences = types;
+    });
+
+    this.joursferiesService.GetJoursFeries().subscribe(jours => {
+      this.listeJoursFeries = jours.map(j => new Date(j.JFER_DteFerie));
     });
 
     //Pour convertir les dates récupérées du backend en format NgbDateStruct
@@ -80,14 +92,26 @@ export class DemandesComponent implements OnInit {
         const date1 = new Date(d1.year, d1.month - 1, d1.day);
         const date2 = new Date(d2.year, d2.month - 1, d2.day);
         this.showDuree = date1.getTime() === date2.getTime(); // vrai si c'est une journée
-      } else {
-        this.showDuree = false;
-      }
+
+           const joursFeriesInclus = this.listeJoursFeries.filter(jf =>
+      jf >= date1 && jf <= date2
+    );
+
+    if (joursFeriesInclus.length > 0) {
+  this.infoFeriesDansPlage = joursFeriesInclus.length === 1 ? 'ℹ️ 1 jour férié compris dans la période ne sera pas comptabilisé.'
+    : `ℹ️ ${joursFeriesInclus.length} jours fériés compris dans la période ne seront pas comptabilisés.`;
+} else {
+  this.infoFeriesDansPlage = '';
+}
+  } else {
+    this.infoFeriesDansPlage = '';
+    this.showDuree = false;
+  }
+
       if (!this.showDuree) {
     this.formAbs.get('typeJournee')?.setValue('Journee');
   }
     });
-
     })
 
   this.formAbs.get('type')?.valueChanges.subscribe((val) => {
@@ -95,6 +119,36 @@ export class DemandesComponent implements OnInit {
   this.showJustif = id === 7 || id === 8 || id === 10;
 });
   }
+
+VerifierJourDebutSurFerie() {
+  const dateStruct = this.formAbs.get('dateBegin')?.value;
+  if (!dateStruct) {
+    this.estJourDebutFerie = false;
+    this.infoJourFerie = '';
+    this.formAbs.updateValueAndValidity();
+    return;
+  }
+
+  const date = new Date(dateStruct.year, dateStruct.month - 1, dateStruct.day);
+
+  const estFerie = this.listeJoursFeries.some(jf =>
+    jf.getFullYear() === date.getFullYear() &&
+    jf.getMonth() === date.getMonth() &&
+    jf.getDate() === date.getDate()
+  );
+
+  this.estJourDebutFerie = estFerie;
+  this.infoJourFerie = estFerie ? '⚠️ Vous avez sélectionné un jour férié.' : '';
+
+  this.formAbs.updateValueAndValidity();
+}
+onFileSelected(event: any) {
+  const file: File = event.target.files[0];
+  if (file) {
+    // En attente d'un vrai download, stocker seulement le nom dans le formulaire
+    this.formAbs.patchValue({ justificatif: file.name });
+  }
+}
 
   envoyerEmail(demande: any) {
     this.auth.user$.subscribe(user => {
@@ -154,7 +208,7 @@ export class DemandesComponent implements OnInit {
     this.addDemande.DEM_DteFin = formatDate(dateEnd);
     this.addDemande.DEM_Comm= form.value.comment;
     this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
-    this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
+    this.addDemande.DEM_Justificatif = this.formAbs.get('justificatif')?.value;
     this.addDemande.DEM_TypeJournee = form.value.typeJournee;
     
     // Vérifier si c'est une modification ou un ajout

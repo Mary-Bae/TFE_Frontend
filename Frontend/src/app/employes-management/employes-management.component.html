@@ -35,9 +35,16 @@
                   </select>
                 </div>
             </div>
+            <div class="form-group d-flex gap-2">
+                <div class="flex-fill">
+                  <label for="email">Adresse e-mail professionnelle</label>
+                  <input type="email" id="email" class="form-control" [class.auto-filled]="emailAutoGenere" formControlName="email"placeholder="ex: nom.prenom@gmail.com"/>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Rôle</label>
                 <select formControlName="role" class="form-control, form-select" id="exampleFormControlSelect1">
+                  <option value="">-- Sélectionner --</option>
                   <option *ngFor="let role of roles" [value]="role.ROL_id">
                       {{ role.ROL_Libelle }}
                     </option>
@@ -46,16 +53,15 @@
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Manager</label>
                 <select formControlName="manager" class="form-control, form-select" id="exampleFormControlSelect1">
+                  <option value="">-- Sélectionner --</option>
                   <option *ngFor="let manager of managers" [value]="manager.EMP_id">
                       {{ manager.EMP_Nom }}
                     </option>
                 </select>  
               </div>
           </div>
-                    
               <h4>Contrat actuel</h4>
-
-              <div class="card p-4 mb-4 shadow-sm">
+            <div class="card p-4 mb-4 shadow-sm">
               <div class="form-group d-flex gap-2">
                 <div class="flex-fill">
                   <label for="typeContrat">Type de contrat</label>
@@ -77,9 +83,9 @@
                 <div class="col-12 mt-3">
                   <div class="form-check mt-2">
                     <input type="checkbox" class="form-check-input" id="contratSansFin" formControlName="contratSansFin">
-                  <label class="form-check-label fw-semibold" for="contratSansFin">Contrat sans date de fin</label>
+                  <label class="form-check-label fw-semibold" for="contratSansFin">Contrat sans date de fin (CDI)</label>
                   </div>
-            </div>
+                </div>
               <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="form-group">
@@ -95,34 +101,23 @@
                         </div>
                     </div>
                 </div>
-
-            <div class="col-md-6 mb-3" *ngIf="!formAbs.get('contratSansFin')?.value">
-    <div class="form-group">
-      <label for="dateEnd">Fin de contrat (facultatif) :</label>
-      <div class="input-group">
-        <input type="date" id="dateEnd"
-          class="form-control text-muted"
-          placeholder="dd/mm/yyyy"
-          formControlName="dateEnd"
-          ngbDatepicker
-          #dp2="ngbDatepicker">
-        <button class="btn btn-outline-secondary bi bi-calendar3" type="button" (click)="dp2.toggle()">📅</button>
-      </div>
-    </div>
-    
-  </div>
-</div>
-<div class="text-center mt-3">
-<button class="btn btn-outline-secondary"
-        *ngIf="isModification"
-        type="button"(click)="preparerNouveauContrat()"[disabled]="nouveauContrat">
-  {{ nouveauContrat ? 'Contrat en cours de création' : 'Créer un Nouveau contrat' }}
-</button>
-</div>
-
-              </div>    
-              <button class="btn btn-danger btn-lg px-5 py-1 mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
-          </form>
+                <div class="col-md-6 mb-3" *ngIf="!formAbs.get('contratSansFin')?.value">
+                  <div class="form-group">
+                      <label for="dateEnd">Fin de contrat (facultatif) :</label>
+                      <div class="input-group">
+                        <input type="date" id="dateEnd"class="form-control text-muted"placeholder="dd/mm/yyyy"formControlName="dateEnd"ngbDatepicker #dp2="ngbDatepicker">
+                        <button class="btn btn-outline-secondary bi bi-calendar3" type="button" (click)="dp2.toggle()">📅</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <button class="btn btn-outline-secondary"*ngIf="isModification"type="button"(click)="preparerNouveauContrat()"[disabled]="nouveauContrat">
+                  {{ nouveauContrat ? 'Contrat en cours de création' : 'Créer un Nouveau contrat' }}</button>
+              </div>
+            </div>    
+            <button class="btn btn-danger btn-lg px-5 py-1 mt-3" type="submit" [disabled]="formAbs.invalid">Valider</button>
+        </form>
       </div>
   </div>
 
