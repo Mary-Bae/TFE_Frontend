@@ -112,7 +112,6 @@ export class DemandesComponent implements OnInit {
     this.formAbs.get('typeJournee')?.setValue('Journee');
   }
     });
-
     })
 
   this.formAbs.get('type')?.valueChanges.subscribe((val) => {
@@ -142,6 +141,13 @@ VerifierJourDebutSurFerie() {
   this.infoJourFerie = estFerie ? '⚠️ Vous avez sélectionné un jour férié.' : '';
 
   this.formAbs.updateValueAndValidity();
+}
+onFileSelected(event: any) {
+  const file: File = event.target.files[0];
+  if (file) {
+    // En attente d'un vrai download, stocker seulement le nom dans le formulaire
+    this.formAbs.patchValue({ justificatif: file.name });
+  }
 }
 
   envoyerEmail(demande: any) {
@@ -202,7 +208,7 @@ VerifierJourDebutSurFerie() {
     this.addDemande.DEM_DteFin = formatDate(dateEnd);
     this.addDemande.DEM_Comm= form.value.comment;
     this.addDemande.DEM_TYPE_id = parseInt(form.value.type);
-    this.addDemande.DEM_Justificatif = form.value.DEM_Justificatif;
+    this.addDemande.DEM_Justificatif = this.formAbs.get('justificatif')?.value;
     this.addDemande.DEM_TypeJournee = form.value.typeJournee;
     
     // Vérifier si c'est une modification ou un ajout

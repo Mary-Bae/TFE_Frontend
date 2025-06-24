@@ -64,7 +64,7 @@
               </div> 
               <div class="form-group" *ngIf="showJustif">
                 <label for="exampleFormControlTextarea1">Justificatif</label>
-                <input type="file" class="form-control" id="justificatif">
+                <input type="file" class="form-control" id="justificatif" (change)="onFileSelected($event)">
               </div> 
             </div>     
             <div *ngIf="infoFeriesDansPlage" class="text-muted mt-2" style="font-size: 0.9em;">{{ infoFeriesDansPlage }}</div>            

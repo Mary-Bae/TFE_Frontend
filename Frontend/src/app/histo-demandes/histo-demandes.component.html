@@ -11,7 +11,8 @@
                     <th scope="col">Type d'absence</th>
                     <th scope="col">Du</th>
                     <th scope="col">Au</th>
-                    <th scope="col">Commentaire</th>
+                    <th scope="col"class="text-center">Commentaire</th>
+                    <th scope="col"class="text-center">Justificatif d'absence</th>
                     <th scope="col">Statut</th>
                     <th scope="col">Modifier la demande</th>
                 </tr>
@@ -27,11 +28,19 @@
                         <td>{{ demande.TYPE_Libelle }}</td>
                         <td>{{ demande.DEM_DteDebut | date:'dd/MM/yyyy'}}</td>
                         <td>{{ demande.DEM_DteFin | date:'dd/MM/yyyy'}}</td>
-                        <td>{{ demande.DEM_Comm }}</td>
+                        <td>
+                            <div *ngIf="demande.DEM_Comm; else noComment">{{ demande.DEM_Comm }}</div>
+                            <ng-template #noComment><div class="text-center">—</div></ng-template>
+                        </td>
+                        <td>
+                            <div *ngIf="demande.DEM_Justificatif; else noJustif">{{ demande.DEM_Justificatif }}
+                                <a class="btn btn-sm btn-outline-primary ms-2">Télécharger</a>
+                            </div>
+                            <ng-template #noJustif><div class="text-center">—</div></ng-template>
+                        </td>
                         <td>{{ demande.STAT_Libelle }}</td>
                         <td>
                             <div class="d-flex justify-content-start gap-2">
-
                                 <button class="btn btn-outline-primary" type="button"(click)="edit(demande.DEM_id)"[disabled]="demande.STAT_Libelle !== 'En attente'">Modifier</button>
                                 <button class="btn btn-outline-danger" type="button"(click)="delete(demande.DEM_id)"[disabled]="demande.STAT_Libelle !== 'En attente'">Supprimer</button>
                             </div>
